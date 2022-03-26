@@ -609,7 +609,7 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
             }; //二 “object literal 对象字面量” 的语法
         ```
     - 一个属性 `property` 就是一个键值对: ( 属性的`key/name/identifier(键/名字/标识符)` `:` 属性的 `value(值)` )
-    - 其中 键 `key` 是一个字符串, 值 `value` 可以是任何值
+    - 其中 键 `key` 只能是字符串 / `Symbol` 类型, 值 `value` 可以是任何值
         - 若 `key` 中有空格则需加 `""`, 如 `"a key": ture,` 
     - 列表中的最后一个属性应以**逗号结尾**, 称尾随或悬挂逗号 (trailing/hanging comma)
 
@@ -668,30 +668,159 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 ## Object 引用和复制
 
+- 赋值对象的变量存储该对象**在内存中的地址**, 而非对象本身
+    - 字符串, 布尔值等原始类型始终以"整体值"的形式被复制
+    - 相比对象的根本区别之一是其"通过引用"被存储和复制的
+- 使用 `const` 声明的对象**可被修改**
+<br />
 
+- 比较对象
+    - 仅当两个对象为同一对象时两者才相等
+    - 两个独立的对象不相等, 即使都为空
+    -   ``` javascript {.line-numbers}
+        let a = {};
+        let b = a;
+        let c = {};
 
+        alert ( a === b ); // ture
+        alert ( a !== c ); // ture
+        ```
+- 克隆与合并, `Object.assign`
+    - ``` javascript {.line-numbers}
+        for (let key in user) {
+            clone[key] = user[key];
+        }
+
+        Object.assign(dest, [src1, src2, src3...])
+        ```
+    - `Object.assign(目标对象, [源对象1, 源对象2...])`
+        - 目标对象的相同属性会被源对象覆盖
+        - 可用来合并多个对象
+
+- 深层克隆 (属性引用其他对象)
+    - 递归实现, 如 `lodash` 库的 `_.cloneDeep(obj)`
 
 ## 垃圾回收
 
+- Reachability 可达性
 
+1. 固有可达值(roots)明显不能被释放
+    - 如: 当前执行的和嵌套调用链上的函数及其局部变量和参数, 全局变量, 等
+2. 若值可通过引用/引用链从根访问任何其他值, 认为该值是可达的
+    - 对外引用不重要, 只有**传入引用**才可以使对象可达(指向该对象)
+    - 无**外部引用**的孤立对象(群)也视为不可达
 
+- garbage collector 垃圾回收器 
+    - JS引擎后台运行
+    - 监控所有对象状态并删除已经不可达的
 
-## Object 方法，"this"
+- 内部算法
+    - 垃圾回收的基本算法被称为 "mark-and-sweep"
 
+## Object 方法，`"this"`
 
+- 作为对象属性的函数被称为 *method* (方法)
+    - 方法简写 (首选较短的语法)
+    -  ``` javascript {.line-numbers}
+        user = {
+        sayHi: function() { alert("Hello"); }
+        };
 
+        // 方法简写
+        let user = {
+        sayHi() { alert("Hello"); } // 与 "sayHi: function(){...}" 一样
+        };
+        ```
+
+- 方法中的 `"this"`
+    - `user.func1()`
+    - `this` 的值就是点之前的这个对象`user`, 即调用该方法的对象
+    <br />
+
+- `this` 不受限制
+    - JS 中的 `this` 可以用于任何函数, 即使它不是对象的方法
+    - `this` 的值在代码运行时计算出来, 取决于代码上下文
+    <br />
+
+- 没有对象的情况下调用含有 this 的函数
+    - `"use strict"` , `this == undefined` 
+    - 非严格模式的情况下, `this` 将会是 全局对象
+    <br />
+
+- 箭头函数没有自己的 `"this"`
+    - 若箭头函数中引用 `this`, 则其值取决于外部 "正常的" 函数
 
 ## 构造器和操作符 "new"
 
+1. 构造函数
+    - 构造函数在技术上是常规函数
+    1. 命名以大写字母开头
+    2. 只能由 `"new"` 操作符来执行
+    <br />
+
+2. 当函数用 new 操作符执行时
+    1. **`this = {};`**（隐式创建）
+    2. 函数体执行, 通常修改 `this`, 添加新的属性等
+    3. **`return this;`**（隐式返回）
+    - 不建议: 若无参数, 可以省略 `new` 后的 `()`
+    <br />
+
+3. (少用) 构造器模式测试：`new.target`
+    - 检查函数是否被使用 `new` 进行调用
+    <br />
+
+4. 构造器的 `return`
+    - 通常构造器 无 `return` 语句
+    1. 若 `return` 返回一个对象, 则返回这个对象
+    2. 若 `return` 返回原始类型/无返回, 忽略并返回 `this`
+    <br />
+
+5. 构造器中的方法
+    - 不仅是属性, 也可将 方法 添加到 `this` 中
+
+## 可选链 `?.`
+
+> `?.` 链使我们能够安全地访问嵌套属性
+
+- `?.` 前的变量必须已声明/定义, 否则报错
+- 若 `?.` 前的值为 `undefined/null` (不存在), 立即停止并返回`undefined` ("短路效应")
+- `?.` 使其前的值成为可选值, 但不对其后的起作用
+- 不要过度使用可选链
+- 其它变体：`?.()`, `?.[]`, `delete user?.name;`
+- 可使用 `?.` 来安全地读取或删除，但 **不能写入**
 
 
-
-## 可选链 "?."
 
 
 
 
 ## Symbol 类型
+
+> Object 的属性 key 只能是 `String` / `Symbol` 类型
+
+ 
+- `"Symbol"` 值表示唯一的标识符
+    ``` javascript {.line-numbers}
+    let id = Symbol(["描述 / Symbol名"]);// id 是 symbol 的一个实例化对象, 是描述为 "描述 / Symbol名" 的 Symbol
+    ```
+- `Symbol` 保证是 **唯一** 的
+    - 即使 Symbol 的描述完全相同, 它们的值也是不同
+    - 描述只是一个标签, 无任何影响
+
+- `Symbol` 不会被自动转换为字符串
+    ``` javascript {.line-numbers}
+    let id = Symbol("id");
+    alert(id); // TypeError: Cannot convert a Symbol value to a string
+    alert(id.toString()); // Symbol(id), 现在它有效了
+    alert(id.description); // id, 只显示 description/描述
+    ```
+
+
+
+
+
+
+
 
 
 
@@ -705,11 +834,42 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ``` javascript {.line-numbers}
 
 
 ```
 
+
+
+
+
+
+``` javascript {.line-numbers}
+
+
+```
 
 
 
