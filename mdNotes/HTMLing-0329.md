@@ -1,6 +1,8 @@
-# HTML 入门
+# HTMLing
 
-## 文件相关
+## HTML 入门
+
+### 文件相关
 
 - 文件名中应使用连字符 `-`, 谷歌搜索引擎把连字符当作单词的分隔符, 但不会识别下划线.
 
@@ -17,11 +19,11 @@
   4. 伴随着构建 DOM 树、应用 CSSOM 树的样式及执行 JavaScript 文件, 在屏幕上绘制出网页的界面
   5. 用户看到网页界面时即可与网页交互
 
-# HTML 基础
+## HTML 基础
 
 > Hypertext Markup Language, HTML (超文本标记语言) 是一种用来结构化 Web 网页及其内容的标记语言
 
-## HTML Element / 元素
+### HTML Element / 元素
 
 - HTML Element 主要部分
 
@@ -57,9 +59,9 @@
     - 默认(无`target`属性)当前页面, `target="_blank"`跳转新标签页
   
 
-# HTML 文档
+## HTML 文档
 
-## HTML 文档概述
+### HTML 文档概述
 
 ``` html {.line-numbers}
 <!DOCTYPE html>
@@ -106,7 +108,7 @@
 3. HTML comments / 注释
   `<!--  -->`
 
-## HTML head / 头部元素
+### HTML head / 头部元素
 
 > 与 `<body>` 元素不同, `<head>`不会在浏览器中显示. 其作用是保存页面的一些元数据
 
@@ -129,7 +131,7 @@
     - 显示在收藏页面时的建议名称中
     - 显示在搜索结果中 (超链接的文本显示)
 <br />
-2. 应用 CSS 和 JavaScript
+2. 应用 `CSS` 和 `JavaScript`
     - 用 `<link>` 元素引入 CSS 文件 
       - `<link rel="stylesheet" href="my-css-file.css">`
     - 用 `<script>` 元素 引入/添加 JavaScript
@@ -141,81 +143,138 @@
     1. `<html lang="zh-CN">`
     2. 用`<span lang="jp"></span>` 包裹要设定的部分
 
-## HTML 内容 | text
+### HTML 内容 | text
 
 > HTML 的主要工作是编辑文本结构和文本内容 (也称为[语义 semantics](https://developer.mozilla.org/zh-CN/docs/Glossary/Semantics))
 
-### 标题/段落 heading/paragraph
+1. 标题/段落 heading/paragraph
 
-1. `<p>` paragraph content `</p>` : 定义单个段落 
+    1. `<p>` paragraph content `</p>` : 定义单个段落 
 
-2. `<h1>` the main heading `</h1>` : 定义标题
-    - `<h1>` the main heading, `<h2>` subheadings, `<h3>` sub-subheadings
-    1. 单页面**单个`<h1>`**
-    2. 层次结构的顺序正确 
-    3. 尽量只使用 `<h1>` `<h2>` `<h3>`
+    2. `<h1>` the main heading `</h1>` : 定义标题
+        - `<h1>` the main heading, `<h2>` subheadings, `<h3>` sub-subheadings
+        1. 单页面**单个`<h1>`**
+        2. 层次结构的顺序正确 
+        3. 尽量只使用 `<h1>` `<h2>` `<h3>`
 
-### 列表 Lists
+2. 列表 Lists
 
-0. `<li>`: list items
+    0. `<li>`: list items
 
-1. 无序 Unordered lists
+    1. 无序 Unordered lists
+        ``` html {.line-numbers}
+        <ul>
+          <li>lists items1</li>
+          <li>lists items2</li>
+        </ul>
+        ```
+
+    2. 有序 Ordered lists 
+        ``` html {.line-numbers}
+        <ol>
+          <li>lists items1</li>
+          <li>lists items2</li>
+        </ol>
+        ```
+    - 列表之间可以嵌套
+
+    3. 描述 Description lists
+
+        - 用于标记一组项目及其相关描述. 如术语&定义, 问题&答案等
+        - 默认会在描述列表的描述部分(description definition)和描述术语(description terms)之间产生缩进
+        - 
+          ``` html {.line-numbers}
+          <dl>
+              <dt>description term1</dt>
+                  <dd>description definition1</dd>
+              <dt>description term2</dt>
+                  <dd>description definition2</dd>
+                  <dd>description definition3</dd>
+          </dl>
+          ```
+
+
+
+
+3. 重点 / 强调
+
+    1. Emphasis / 强调
+
+        - 在口语表达中强调某些字
+        - 用 `<em>`(emphasis) 元素 标记
+        - 默认风格为斜体
+
+    2. Strong importance / 非常重要
+
+        - 强调重要的词
+        - 用 `<strong>`(strong importance) 元素标记
+        - 默认风格为粗体
+
+    - 强调之间可嵌套
+
+4. 展示代码
+
+    - `<code>` 用于标记计算机通用代码
+    - `<pre>` 用于保留空白字符 (通常用于代码块)
+    - `<var>` 用于标记具体变量名
+    - `<kbd>`: 用于标记输入电脑的键盘(或其他类型的)输入
+    - `<samp>`: 用于标记计算机程序的输出
+
+5. 标记时间和日期
+
+    - 将时间和日期标记为可供机器识别的格式
+    - 可包含 年-月-日/年月/月日/时分秒毫秒/日期T时间+时区/年W周数
+    -   ``` html {.line-numbers}
+        <time datetime="2016-01-20T19:30+01:00">7.30pm, 20 January 2016 is 8.30pm in France</time>
+        ```
+
+6. 引用 quote
+
+    1. 块引用 `<blockquotes>`
+    2. 行内引用 Inline quotation `<q>`
+        ``` html {.line-numbers}
+        <blockquote cite=""> </blockquote>
+        <q cite=""> </q>
+        ```
+    - 引用元素中的 `cite=""` 内容不会被浏览器显示、屏幕阅读器阅读
+        - 只可借助 JS 或 CSS 显示出来
+    - 可使用 `<a href="">` `<cite></cite>` `</a>` 标注引用来源及链接
+        - `<cite>` 元素默认 *斜体* 显示
+
+
+7. 缩略语 Abbreviation
+
     ``` html {.line-numbers}
-    <ul>
-      <li>lists items1</li>
-      <li>lists items2</li>
-    </ul>
+    <abbr title=""> </abbr>
     ```
+    1. 只在添加 `title=""` 之后, `<abbr>` 元素才有 点下划线 效果
+    2. 鼠标悬停时显示 `title=""` 中的内容
+    3. `title=""` 中的 非首位 空白字符可被识别并显示
 
-2. 有序 Ordered lists 
-    ``` html {.line-numbers}
-    <ol>
-      <li>lists items1</li>
-      <li>lists items2</li>
-    </ol>
-    ```
-- 列表之间可以嵌套
+8. 上下标 Superscript subscript
 
-3. 描述 Description lists
+    1. 上标 `<sup> </sup>` 
+    2. 下标 `<sub> </sub>`
 
-    - 用于标记一组项目及其相关描述. 如术语&定义, 问题&答案等
-    - 默认会在描述列表的描述部分(description definition)和描述术语(description terms)之间产生缩进
-    - 
+
+
+
+9. 标记联系方式
+    - 是为了标记编写HTML文档的人的联系方式
       ``` html {.line-numbers}
-      <dl>
-        <dt>description term1</dt>
-          <dd>description definition1</dd>
-        <dt>description term2</dt>
-          <dd>description definition2</dd>
-          <dd>description definition3</dd>
-      </dl>
+      <address> </address>
       ```
 
+10. 表象元素 / presentational elements
+
+    - 表象元素: 仅影响表象而**没有语义**, 不建议使用
+    - 已不使用: 如`<b>, <i>, <u>`
 
 
 
-### 重点强调
 
-1. Emphasis / 强调
 
-    - 在口语表达中强调某些字
-    - 用 `<em>`(emphasis) 元素 标记
-    - 默认风格为斜体
-
-2. Strong importance / 非常重要
-
-    - 强调重要的词
-    - 用 `<strong>`(strong importance) 元素标记
-    - 默认风格为粗体
-
-- 强调之间可嵌套
-
-### 表象元素 / presentational elements
-
-- 表象元素: 仅影响表象而**没有语义**, 不建议使用
-- 已不使用: 如`<b>, <i>, <u>`
-
-## 建立超链接 / hyperlinks
+### 建立超链接 / hyperlinks
 
 
 1. 链接构成: `<a href="" title=""> </a>`
@@ -271,6 +330,50 @@
     - 常用: 主题(`subject`)、抄送(`cc`)和主体(`body`)
     - 每个字段的值**必须**是URL编码的, 不能有非打印字符 (如制表符、换行符、分页符) 和空格
 
+## 文档与网站架构
+
+> 全球色盲患者比例: 4%, 视力受损人口比例: 9.4亿 / 13% (2015)
+
+> [HTML 验证](https://validator.w3.org/)
+
+
+### 文档基本组成
+
+1. `<header>` 页眉
+    - 简介形式的内容
+    - 若为 `<body>`子元素, 则是网站的全局页眉
+    - 若为 `<article>` `<section>`子元素, 则为这些部分特有的页眉
+
+2. `<nav>` 导航栏
+    - 包含页面主导航功能
+    - 通常使用列表构建
+
+3. `<main>` 主内容
+    - 可包括子内容区段如`<article>` `<section>` `<div>` 等
+    - 存放每个页面独有的内容, 单页面单个 `<main>`
+    - `<main>` 应直接位于 `<body>` 中 (无嵌套)
+    - `<article>` 包围的内容即一篇文章, 页面其它部分无关
+    - `<section>` 适用于组织页面使其按功能分块
+
+4. `<aside>` 侧边栏，
+    - 包含一些间接信息 (术语条目, 作者简介, 相关链接等)
+    - `<aside>` 常嵌套在 `<main>` 中
+
+5. `<footer>` 页脚
+    - 网站的全局页脚
+
+6. 无语义(Non-semantic)元素
+    - `<div>` 块级(block)无语义元素
+    - `<span>` 内联的(inline)无语义元素
+
+### 换行与水平分割线
+
+1. `<br>` 换行 line break
+2. `<hr>` 水平分隔线 Horizontal Rule
+    - 表示段落级元素之间的主题转换
+
+
+## BackToEnd
 
 
 <br />
