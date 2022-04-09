@@ -1,6 +1,10 @@
 # HTMLing
 
+> Hypertext Markup Language, HTML (超文本标记语言) 是一种用来结构化 Web 网页及其内容的标记语言
+
 ## HTML 入门
+
+> HTML标签对 大小写 不敏感 (推荐**全部小写**)
 
 ### 文件相关
 
@@ -19,36 +23,19 @@
   4. 伴随着构建 DOM 树、应用 CSSOM 树的样式及执行 JavaScript 文件, 在屏幕上绘制出网页的界面
   5. 用户看到网页界面时即可与网页交互
 
-## HTML 基础
 
-> Hypertext Markup Language, HTML (超文本标记语言) 是一种用来结构化 Web 网页及其内容的标记语言
+## HTML Element / 元素概览
 
-### HTML Element / 元素
-
-- HTML Element 主要部分
-
-  - `Opening tag` + `Content` + `Closing tag` (开始/结束标签 + 内容)
-
-- HTML Attribute / 属性
-
-  - 属性包含元素的一些额外信息
-  - 属性主要6部分: ` ` `attribute name` `=` `"` `attribute value` `"`
-  - *不建议* : 不含 ASCII 空格（及 `"` `'` ` = < >` ）的简单属性值可不加引号
-  - 单双引号不可混用, 可嵌套使用(在字符串中显示)
-
-- Boolean attributes / 布尔属性
-
-  - 没有值的属性, 只能有**与属性名一样**的属性值
-  - eg. `disabled` / `disabled="disabled"` (标记表单输入使之变为不可用)
+- HTML 元素指 `开始/开放标签 + 元素内容 + 结束/闭合标签` 的所有代码
+    - (`start/Opening tag` + `Element Content` + `end/Closing tag` )
 
 - Nesting elements / 嵌套元素
 
-  - 将一个元素置于其他元素之中称作**嵌套**
-  - 注意正确地开始和结束
+    - 将一个元素置于其他元素之中称作**嵌套**
+    - 注意正确地开始和结束
 
 - Empty elements / 空元素
-
-  - 不包含任何内容的元素称为空元素
+    - 不包含任何内容的元素称为空元素
 
 - `<a>`元素 / anchor element / 锚元素 
 
@@ -58,6 +45,35 @@
   3. `target=""` 指定如何呈现链接
     - 默认(无`target`属性)当前页面, `target="_blank"`跳转新标签页
   
+## HTML Attribute / 属性
+
+- 属性包含 HTML 元素的一些额外信息
+- 属性总在元素的开始标签(start tag)中规定
+- 属性主要6部分: ` ` `attribute name` `=` `"` `attribute value` `"`
+    - 单双引号不可混用, 可嵌套使用(在字符串中显示引号)
+    - *不建议* : 不含 ASCII 空格（及 `"` `'` ` = < >` ）的简单属性值可不加引号
+
+### 常用属性
+Attribute|Value|description
+--|--|--
+`class`|*classname*|规定元素的类名(classname)
+`id`|*id_value*|规定元素的唯一 id (区分大小写)
+`style`|*style_definition*|规定元素的行内样式(inline style)
+`title`|*text*|规定元素的额外信息(可在工具提示中显示)
+
+
+### Boolean attributes / 布尔属性
+- 没有值的属性, 只能有**与属性名一样**的属性值
+- eg. `disabled` / `disabled="disabled"` (标记表单输入使之变为不可用)
+
+### Deprecated 废弃属性 
+
+- 在 HTML 4 中，有若干的标签和属性是被废弃的。被废弃(Deprecated)的意思是在未来版本的 HTML 和 XHTML 中将不支持这些标签和属性
+
+-使用 `<style>`代替: align, bgcolor, color
+
+
+
 
 ## HTML 文档
 
@@ -66,19 +82,22 @@
 ``` html {.line-numbers}
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset="utf-8">
     <title>测试页面</title>
   </head>
+
   <body>
     <img src="images/firefox-icon.png" alt="测试图片">
   </body>
+
 </html>
 ```
 
 - `<!DOCTYPE html>` 是最短有效的文档声明
 
-- `<html></html>`: `<html>`元素包裹整个完整的页面, 是一个**根元素**
+- `<html></html>`: `<html>`之间的文本描述网页, 是一个**根元素**
 
 - `<head></head>`: `<head>`元素是一个**容器**，其内容包含在HTML页面中但不会被显示
   - 如: 在搜索结果中出现的关键字和页面描述, CSS样式, 字符集声明等
@@ -87,7 +106,10 @@
 
 - `<title></title>`: 设置页面标题, 出现在浏览器标签上, 标记/收藏页面时可用来描述页面
 
-- `<body></body>`: `<body>`元素包含访问页面时所有显示在页面上的内容
+- `<body></body>`: `<body>`之间的文本是可见的页面内容
+
+
+### 文档编写注意
 
 1. HTML中的空白
 
@@ -108,227 +130,412 @@
 3. HTML comments / 注释
   `<!--  -->`
 
-### HTML head / 头部元素
+## HTML `<head>` / 头部元素
 
 > 与 `<body>` 元素不同, `<head>`不会在浏览器中显示. 其作用是保存页面的一些元数据
 
-0. `<meta>`元素: 添加元数据
-    - 元数据就是描述数据的数据
-    - 许多 `<meta>` 元素包含了 `name` 和 `content` 特性
-    1. 指定字符编码 `<meta charset="utf-8">`
-    2. 增加自定义图标 `<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">`
-    2. 添加作者和描述 (搜索引擎搜索结果显示)
-        ``` html {.line-numbers}
-        <meta name="author" content="Author Name">`
-        <meta name="description" content="Description Content">`
-        ```
-    3. 许多` <meta>` 特性已经不再使用。 例如，keyword `<meta>` 元素
-    4. 部分大型网站有专有元数据
-<br />
-1. `<title>` 元素
-    - 是一项元数据，用于表示整个 HTML 文档的标题
+
+### `<html lang="">` 设定主语言
+
+1. 总体: `<html lang="zh-CN">`
+2. 局部: 用`<span lang="jp"></span>` 包裹要设定的部分
+
+
+### `<meta>` : 添加元数据
+
+- 元数据就是描述数据的数据
+- 许多 `<meta>` 元素包含了 `name` 和 `content` 特性
+
+1. 指定字符编码 `<meta charset="utf-8">`
+
+2. 增加自定义图标 `<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">`
+
+3. 添加作者和描述 (搜索引擎搜索结果显示)
+    ``` html {.line-numbers}
+    <meta name="author" content="Author Name">`
+    <meta name="description" content="Description Content">`
+    ```
+
+4. 许多` <meta>` 特性已经不再使用。 例如，keyword `<meta>` 元素
+5. 部分大型网站有专有元数据
+
+
+### `<title>` : HTML文档标题
+- 不可或缺
+- 是一项*元数据*，用于表示整个 HTML 文档的标题
     - 显示在标签页的标签中
     - 显示在收藏页面时的建议名称中
     - 显示在搜索结果中 (超链接的文本显示)
-<br />
-2. 应用 `CSS` 和 `JavaScript`
-    - 用 `<link>` 元素引入 CSS 文件 
-      - `<link rel="stylesheet" href="my-css-file.css">`
-    - 用 `<script>` 元素 引入/添加 JavaScript
-      - `<script src="my-js-file.js"></script>`
-      - `src`引入的脚本会覆盖 `script` 内部的脚本 (同时存在)
-<br />
-3. 设定主语言
 
-    1. `<html lang="zh-CN">`
-    2. 用`<span lang="jp"></span>` 包裹要设定的部分
+### `<base>` : 规定默认地址/目标
 
-### HTML 内容 | text
+- `<base />`标签为页面上的所有链接规定默认地址或默认目标(target)
+- 属性 `href=""` 规定默认链接
+- 属性 `target="_blank"` 规定链接默认在另一标签页打开
+
+
+### `<link>` : 定义外部资源
+
+- `<link />`最常用于连接样式表
+    ``` html {.line-numbers}
+    <head>
+        <link rel="stylesheet" type="text/css" href="mystyle.css" />
+    </head>
+    ```
+
+
+### 引入/添加 CSS / JavaScript
+
+1. `<style>` 添加 CSS **语句**
+2. `<script>` 引入/添加 JavaScript
+
+## HTML `CSS` 
+
+1. 外部样式表 
+``` html {.line-numbers}
+<head>
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+```
+
+2. 内部样式表
+``` html {.line-numbers}
+<head>
+    <style type="text/css">
+
+        body {background-color: blue}
+
+    </style>
+</head>
+```
+
+3. 内联样式
+``` html {.line-numbers}
+<p style="color: red; margin-left: 20px">
+This is a paragraph
+</p>
+```
+
+- 用 `<link>` 元素 引入 CSS 文件 
+    - `<link rel="stylesheet" href="my-css-file.css">`
+
+
+## HTML `JavaScript`
+-  用 `<script>` 元素 引入/添加 JavaScript
+    - `<script src="my-js-file.js"> </script>`
+    - `src`引入的脚本会覆盖 `script` 内部的脚本 (同时存在)
+- `<noscript>` 标签定义了替代内容 在浏览器中禁用了脚本或浏览器不支持脚本 时会显示
+
+
+
+
+## HTML内容 - text
 
 > HTML 的主要工作是编辑文本结构和文本内容 (也称为[语义 semantics](https://developer.mozilla.org/zh-CN/docs/Glossary/Semantics))
 
-1. 标题/段落 heading/paragraph
+### 标题/段落 heading/paragraph
 
-    1. `<p>` paragraph content `</p>` : 定义单个段落 
+> 搜索引擎使用标题为网页的结构和内容编制索引
 
-    2. `<h1>` the main heading `</h1>` : 定义标题
-        - `<h1>` the main heading, `<h2>` subheadings, `<h3>` sub-subheadings
-        1. 单页面**单个`<h1>`**
-        2. 层次结构的顺序正确 
-        3. 尽量只使用 `<h1>` `<h2>` `<h3>`
+1. `<p>` paragraph content `</p>` : 定义单个段落 
 
-2. 列表 Lists
+2. `<h1>` the main heading `</h1>` : 定义标题
 
-    0. `<li>`: list items
+    - `<h1>` the main heading, `<h2>` subheadings, `<h3>` sub-subheadings
 
-    1. 无序 Unordered lists
-        ``` html {.line-numbers}
-        <ul>
-          <li>lists items1</li>
-          <li>lists items2</li>
-        </ul>
-        ```
-
-    2. 有序 Ordered lists 
-        ``` html {.line-numbers}
-        <ol>
-          <li>lists items1</li>
-          <li>lists items2</li>
-        </ol>
-        ```
-    - 列表之间可以嵌套
-
-    3. 描述 Description lists
-
-        - 用于标记一组项目及其相关描述. 如术语&定义, 问题&答案等
-        - 默认会在描述列表的描述部分(description definition)和描述术语(description terms)之间产生缩进
-        - 
-          ``` html {.line-numbers}
-          <dl>
-              <dt>description term1</dt>
-                  <dd>description definition1</dd>
-              <dt>description term2</dt>
-                  <dd>description definition2</dd>
-                  <dd>description definition3</dd>
-          </dl>
-          ```
+3. 使用注意点: 
+    1. 单页面 **单个`<h1>`**
+    2. 层次结构的顺序正确 
+    3. 尽量只使用 `<h1>` `<h2>` `<h3>`
 
 
+### 列表 Lists
 
+0. `<li>`: list items
 
-3. 重点 / 强调
-
-    1. Emphasis / 强调
-
-        - 在口语表达中强调某些字
-        - 用 `<em>`(emphasis) 元素 标记
-        - 默认风格为斜体
-
-    2. Strong importance / 非常重要
-
-        - 强调重要的词
-        - 用 `<strong>`(strong importance) 元素标记
-        - 默认风格为粗体
-
-    - 强调之间可嵌套
-
-4. 展示代码
-
-    - `<code>` 用于标记计算机通用代码
-    - `<pre>` 用于保留空白字符 (通常用于代码块)
-    - `<var>` 用于标记具体变量名
-    - `<kbd>`: 用于标记输入电脑的键盘(或其他类型的)输入
-    - `<samp>`: 用于标记计算机程序的输出
-
-5. 标记时间和日期
-
-    - 将时间和日期标记为可供机器识别的格式
-    - 可包含 年-月-日/年月/月日/时分秒毫秒/日期T时间+时区/年W周数
-    -   ``` html {.line-numbers}
-        <time datetime="2016-01-20T19:30+01:00">7.30pm, 20 January 2016 is 8.30pm in France</time>
-        ```
-
-6. 引用 quote
-
-    1. 块引用 `<blockquotes>`
-    2. 行内引用 Inline quotation `<q>`
-        ``` html {.line-numbers}
-        <blockquote cite=""> </blockquote>
-        <q cite=""> </q>
-        ```
-    - 引用元素中的 `cite=""` 内容不会被浏览器显示、屏幕阅读器阅读
-        - 只可借助 JS 或 CSS 显示出来
-    - 可使用 `<a href="">` `<cite></cite>` `</a>` 标注引用来源及链接
-        - `<cite>` 元素默认 *斜体* 显示
-
-
-7. 缩略语 Abbreviation
-
+1. 无序 Unordered lists
+    - 可使用属性 `type=""` 改变项目符号
+    - disc实心圆, circle空心圆, square实心正方
     ``` html {.line-numbers}
-    <abbr title=""> </abbr>
+    <ul>
+        <li>lists items1</li>
+        <li>lists items2</li>
+    </ul>
     ```
-    1. 只在添加 `title=""` 之后, `<abbr>` 元素才有 点下划线 效果
-    2. 鼠标悬停时显示 `title=""` 中的内容
-    3. `title=""` 中的 非首位 空白字符可被识别并显示
 
-8. 上下标 Superscript subscript
+2. 有序 Ordered lists 
+    - 可使用属性 `type=""` 改变项目符号
+    - A/a 字母顺序, I/i 罗马字母顺序
+    ``` html {.line-numbers}
+    <ol>
+        <li>lists items1</li>
+        <li>lists items2</li>
+    </ol>
+    ```
+- 无序/有序 列表之间可以嵌套
 
-    1. 上标 `<sup> </sup>` 
-    2. 下标 `<sub> </sub>`
+3. 描述 Description lists
 
+    - 用于标记一组项目及其相关描述. 如术语&定义, 问题&答案等
+    - 默认会在描述列表的描述部分(description definition)和描述术语(description terms)之间产生缩进
+    - 
+        ``` html {.line-numbers}
+        <dl>
+            <dt>description term1</dt>
+                <dd>description definition1</dd>
+            <dt>description term2</dt>
+                <dd>description definition2</dd>
+                <dd>description definition3</dd>
+        </dl>
+        ```
 
+### 表格 table
 
+> 表格table, 单元格cell, 行row, 列column
+``` html {.line-numbers}
+<table border="1">
+    <caption>Table Caption</caption>
+    <tr>
+        <td>row 1, cell 1</td> <td>row 1, cell 2</td>
+    </tr>
+    <tr>
+        <td>row 2, cell 1</td> <td>row 2, cell 2</td>
+    </tr>
+</table>
+```
 
-9. 标记联系方式
-    - 是为了标记编写HTML文档的人的联系方式
-      ``` html {.line-numbers}
-      <address> </address>
-      ```
+1. 表格标签
 
-10. 表象元素 / presentational elements
+    1. `<table>` 标签 定义表格
+        - 使用属性 `border=""` 添加边框
+    2. `<tr>` 定义单行 
+        - The Table Row element
+    3. `<th>` 定义表头(行或列)
+        - `<th>`与`<td>` 平级
+        - 默认加粗居中
+    4. `<td>` 定义一行中单个单元格 
+        - The Table Data Cell element
+    5. `<caption>` 定义表格的标题
+        - **无关**代码位置, 都居中显示在整个表格上方
+        - The Table Caption element
 
-    - 表象元素: 仅影响表象而**没有语义**, 不建议使用
-    - 已不使用: 如`<b>, <i>, <u>`
-
-
-
-
-
-### 建立超链接 / hyperlinks
-
-
-1. 链接构成: `<a href="" title=""> </a>`
-    1. 用 `<a> </a>`元素包裹内容(包括块级元素)创建链接
-    2. 用 `href=""`属性(Hypertext Reference) 添加指向的地址
-    3. 用 `title=""`属性添加支持信息(悬停显示)
-        - 注意: title仅当悬停时才显示, 只用于补充信息
+    - 注意点: 若单元格为空, 部分浏览器无法显示其边框, 可用占位符 `&nbsp;` 填充 (默认忽略单元格首位空字符)
 <br />
 
-2. `URL`: Uniform Resource Locator, 统一资源定位器
-    - HTTP中, `URL` 被称为 `Web address` 或 `link`
-    - `URL` 可指向可在网络上保存的任何内容, 若浏览器不知道如何显示或处理文件, 则会询问是否要打开/下载文件
-    - 指向工作目录:
-        - 默认指向当前目录
-        - 直接索引下级目录 
-        - 用 `../` 指向上一级目录
+2. 表格属性 for `<td>` / `<th>`
+    1. 跨(span)行或跨列
+        - 添加属性 `colspan="num"` / `rowspan="num"` 
+        - `num` 即为需要 跨行 / 跨列 的数量
+        ``` html {.line-numbers}
+        <table border="1">
+            <tr>
+                            <th> 姓名 </th> <td> Bill Gates </td>
+            </tr>
+            <tr>
+                <td rowspan="2"> 电话 </td> <td> 555 77 854 </td>
+            </tr>
+            <tr>
+                /*此处上方的单元格跨列占用*/  <td> 555 77 855 </td>
+            </tr>
+        </table>
+        ```
+    2. 文字排列
+        - 添加属性 `align="way"`
+        - `way` 可为: left / center / right
+
 <br />
+3. 表格属性 for `<table>`
 
-3. 链接当前文档片段
-    - 先给元素分配 `id` 属性 eg. `id="id_Name"`
-    ``` html {.line-numbers}
-    <a href = "[tagDOC.html]#id_Name">...
+### 重点 / 强调
+
+1. Emphasis / 强调
+
+    - 在口语表达中强调某些字
+    - 用 `<em>`(emphasis) 元素 标记
+    - 默认风格为*斜体*
+
+2. Strong importance / 非常重要
+
+    - 强调重要的词
+    - 用 `<strong>`(strong importance) 元素标记
+    - 默认风格为**粗体**
+
+- 强调之间可嵌套 (***加粗倾斜***)
+
+
+### 展示代码
+
+- `<code>` 标记 通用代码 **不保留**多余的空格和折行
+
+- `<pre>` 保留空白字符+等宽字体 (通常用于代码块)
+
+- `<var>` 用于标记具体变量名
+- `<kbd>`: 用于标记输入电脑的键盘(或其他类型的)输入
+- `<samp>`: 用于标记计算机程序的输出
+
+
+### 标记时间日期
+
+- 将时间和日期标记为可供机器识别的格式
+- 可包含 年-月-日/年月/月日/时分秒毫秒/日期T时间+时区/年W周数
+- **必须** 补全位数(补`0`) `2022-03-04T00:01+08:00`
+-   ``` html {.line-numbers}
+    <time datetime="2016-01-20T19:30+01:00">7.30pm, 20 January 2016 is 8.30pm in France</time>
     ```
 
-4. absolute URL versus relative URL
-    - 绝对链接 `absolute URL`: 指向由其在Web上的绝对位置定义的位置, 包括 protocol(协议), domain name(域名)
-    - 相对链接 `relative URL`: 指向与所链接文件相关的位置 
 
-5. 注意点:
+### old - 表象元素 presentational elements
 
-    - 链接文本中不要包含 URL, 链接(到)
-    - 保持链接尽可能*短*
-    - 尽可能使用**相对链接**
-        - 使用 相对URL 更有效率
-        - 访问 绝对URL 时需先通过 DNS 查找 IP地址
-    - 链接到 非HTML资源 时留下清晰的指示
-        - 如 `(PDF, 10MB)`
+- 不建议: 表象元素: 仅影响表象而 **没有语义**
+- 已不使用: 如`<b>, <i>, <u>, <s>`
 
-6. 下载链接使用 `download` 属性
 
-    - 使用 `download = ""`提供一个默认的保存文件名
-    - `download`属性仅适用于**同源URL**
-        - 同源(Same-origin)URL  的 protocol、port(若指定)和 host 都相同
 
-7. 电子邮件链接
+## HTML 引文、引用和定义元素
+
+### 引用 quote
+
+1. 块引用 `<blockquotes>`
+2. Inline quotation `<q>`
     ``` html {.line-numbers}
-    <a href = "mailto:[example@abc.com][?]">...
-    <a href = "mailto:exp@abc.com?cc=a1@b.com&cc=a2.b.com&subject=The%20subject%20of%20the%20email&body=The%20body%20of%20the%20email">...
+    <blockquote cite=""> </blockquote>
+    <q cite=""> </q>
     ```
-    - 若无邮件地址, 窗口仍会被打开
-    - 使用 `?` 分隔 主URL 与 参数值 
-    - 使用 `&` 分隔 `mailto:` 中的各个参数
-    - 常用: 主题(`subject`)、抄送(`cc`)和主体(`body`)
-    - 每个字段的值**必须**是URL编码的, 不能有非打印字符 (如制表符、换行符、分页符) 和空格
+- 引用元素中的 `cite=""` 属性内容 **不会** 被浏览器显示、屏幕阅读器阅读
+    - 只可借助 JS 或 CSS 显示出来
+- 可使用 `<a href="">` `<cite></cite>` `</a>` 标注引用来源及链接
+    - `<cite>` 元素默认 *斜体* 显示
+
+### 引用标题 `<cite>` 
+
+- `<cite>` 元素定义著作的标题
+- 默认斜体显示
+- 区分 引用中的属性 `cite=""` 
+
+
+### 标记联系信息 `<address>`
+
+- 标记编写HTML文档的人的联系方式
+- 包括地址邮编, 姓名电话, 电子邮件等信息
+- 默认 ***斜体***
+    ``` html {.line-numbers}
+    <address> </address>
+    ```
+
+
+### 缩略语 Abbreviation
+
+``` html {.line-numbers}
+<abbr title=""> </abbr>
+```
+1. 只在添加 `title=""` 之后, `<abbr>` 元素才有 点下划线 效果
+2. 鼠标悬停时显示 `title=""` 中的内容
+3. `title=""` 中的 非首位 空白字符可被识别并显示
+
+
+### 上下标 Superscript subscript
+
+1. 上标 `<sup> </sup>` 
+2. 下标 `<sub> </sub>`
+
+
+
+## HTML内容 -- 图片
+
+### `<img />` 标签定义 HTML 图像
+1. `<img>`为空标签(自闭合)
+2. 基础语法:  `<img` `src=""` `alt=""` `/>`
+ - `<map>` 定义图像地图
+
+### `<img>` 属性
+- 包括: src alt align width height
+1. 源属性 `src` 的值是图像的 URL 地址
+2. 替换文本属性 `alt` 为图像定义一串预备的可替换的文本
+    - 当浏览器无法载入图像时显示 `alt` 中的内容
+3. `align` 定义 图片 相对于 文字 的位置
+4. `width` `height` 定义图片高宽(应该添加)
+
+### 注意点
+1. 始终定义图像尺寸: 这样做会减少闪烁，因为浏览器会在图像加载之前为图像预留空间
+
+
+
+
+## HTML 超链接 / hyperlinks
+
+
+### 超链接标签`<a>`
+
+``` html {.line-numbers}
+<a href="" title=""> </a>
+```
+1. 用 `<a> </a>`元素包裹内容(包括**块级**元素)创建链接
+2. 用 `href=""`属性(Hypertext Reference) 添加指向的地址
+3. 用 `title=""`属性添加支持信息(悬停显示)
+    - 注意: title仅当悬停时才显示, 只用于补充信息
+
+
+### `URL`: Uniform Resource Locator, 统一资源定位器
+
+- HTTP中, `URL` 被称为 `Web address` 或 `link`
+- `URL` 可指向可在网络上保存的任何内容, 若浏览器不知道如何显示或处理文件, 则会询问是否要打开/下载文件
+- 指向工作目录:
+    - 默认指向当前目录
+    - 直接索引下级目录 
+    - 用 `../` 指向上一级目录
+
+
+### 链接指向当前文档
+
+- 先给元素分配 `id` 属性 eg. `id="id_Name"`
+``` html {.line-numbers}
+<a href = "[tagDOC.html]#id_Name">...
+```
+- 注: 旧版本可/只可使用 `name` (旧版 `id`)
+
+
+### absolute URL versus relative URL
+
+1. 绝对链接 `absolute URL`: 
+    - 指向由其在Web上的绝对位置定义的位置
+    - 包括 protocol(协议), domain name(域名)
+2. 相对链接 `relative URL`: 
+    - 指向与所链接文件相关的位置 
+
+
+### 注意点:
+
+- 补全正斜杠 `/`
+    - `href="` `http://www.example.com` `"` 会产生二次HTTP请求
+    - `href="` `http://www.example.com` `/` `"` 末尾需补上 `/` 
+- 简洁: 链接的显示文本中不要包含 URL, 链接(到) 等字样
+- 保持链接尽可能*短*
+- 尽可能使用**相对链接**
+    - 使用 相对URL 更有效率
+    - 访问 绝对URL 时需先通过 DNS 查找 IP地址
+- 链接到 非HTML资源 时留下清晰的指示
+    - 如 `(PDF, 10MB)`
+
+
+### 电子邮件链接
+``` html {.line-numbers}
+<a href = "mailto:[example@abc.com][?]">...
+<a href = "mailto:exp@abc.com?cc=a1@b.com&cc=a2.b.com&subject=The%20subject%20of%20the%20email&body=The%20body%20of%20the%20email">...
+```
+- 若无邮件地址, 邮件窗口仍会被打开
+- 使用 `?` 分隔 主URL 与 参数值 
+- 使用 `&` 分隔 `mailto:` 后的各个参数
+- 常用: 主题(`subject`)、抄送(`cc`)和主体(`body`)
+- 每个字段的值**必须**是URL编码的, 不能有非打印字符 (如制表符、换行符、分页符) 和空格
+        
+
+### 下载链接 `download` 属性
+
+- 使用 `download = ""`提供一个默认的保存文件名
+- `download`属性仅适用于**同源URL**
+    - 同源(Same-origin)URL  的 protocol、port(若指定)和 host 都相同
+
+
 
 ## 文档与网站架构
 
@@ -352,8 +559,8 @@
     - 可包括子内容区段如`<article>` `<section>` `<div>` 等
     - 存放每个页面独有的内容, 单页面单个 `<main>`
     - `<main>` 应直接位于 `<body>` 中 (无嵌套)
-    - `<article>` 包围的内容即一篇文章, 页面其它部分无关
-    - `<section>` 适用于组织页面使其按功能分块
+    - `<article>` 包围的内容即一篇文章, 页面其它部分无关(独立的自包含内容)
+    - `<section>` 适用于组织页面使其按功能分块(节是有主题的内容组，通常具有标题)
 
 4. `<aside>` 侧边栏，
     - 包含一些间接信息 (术语条目, 作者简介, 相关链接等)
@@ -362,15 +569,34 @@
 5. `<footer>` 页脚
     - 网站的全局页脚
 
-6. 无语义(Non-semantic)元素
-    - `<div>` 块级(block)无语义元素
-    - `<span>` 内联的(inline)无语义元素
+6. `<figure>` 图片标题
+
+    - `<figure>` 组合图片和标题
+    - `<img>` 定义图像, `<figcaption>` 定义标题。
+    ``` html {.line-numbers}
+    <figure>
+        <img src="pic_mountain.jpg" alt="The Pulpit Rock">
+        <figcaption>Fig1. - The Pulpit Pock, Norway.</figcaption>
+    </figure> 
+    ```
+
+7. 无语义(Non-semantic)元素
+    - `<div>` 块级(block)无语义元素, 定义文档中的分区或节(division/section)
+    - `<span>` 内联的(inline)无语义元素, 用来组合文档中的行内元素
 
 ### 换行与水平分割线
 
-1. `<br>` 换行 line break
-2. `<hr>` 水平分隔线 Horizontal Rule
+1. `<br />` 换行 line break
+2. `<hr />` 水平分隔线 Horizontal Rule
     - 表示段落级元素之间的主题转换
+
+
+## HTML 响应式 Web 设计
+
+- RWD, Responsive Web Design, 指的是响应式 Web 设计
+- RWD 能够以 **可变尺寸** 传递网页
+- RWD 对于平板和移动设备是必需的
+
 
 
 ## BackToEnd
