@@ -86,7 +86,9 @@ Attribute|Value|description
 
 ### Boolean attributes / 布尔属性
 - 没有值的属性, 只能有**与属性名一样**的属性值
-- eg. `disabled` / `disabled="disabled"` (标记表单输入使之变为不可用)
+- eg. 
+    - `disabled` / `disabled="disabled"` (标记表单输入使之变为不可用)
+    - `required` 设置表单为必填项
 
 ### Deprecated 废弃属性 
 
