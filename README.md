@@ -14,7 +14,7 @@
 
 ### HTML & CSS
 
-1. [web 入门 - 学习 Web 开发 | MDN](https://developer.mozilla.org/zh-CN/docs/Learn/Getting_started_with_the_web)
+1. [Web 前端开发者 - 学习 Web 开发 | MDN](https://developer.mozilla.org/zh-CN/docs/Learn/Front-end_web_developer)
 
 
 
