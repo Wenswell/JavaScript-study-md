@@ -70,9 +70,9 @@
     - 若 head 中有 script 元素, 则浏览器会**先**加载/下载并执行JS, 然后继续解析 HTML 与 CSS
     - 防止渲染阻塞
         1. 将 `<script>` 放在HTML页面底部的`</body>` 之前
-        2.  `<script>` 添加属性 `async` / `defer`
-            - async: 异步加载, 加载完后暂停HTML解析先执行JS
-            - defer: 异步加载, 等待HTML解析完毕后执行JS
+        2.  `<script>` 添加属性 async / defer
+            - `async`: 异步加载, 加载完后暂停HTML解析先执行JS
+            - `defer`: 异步加载, 等待HTML解析完毕后执行JS
         ``` html {.line-numbers}
         <head>
         <！--异步加载, 但加载后立即执行-->
@@ -86,6 +86,23 @@
         <script src="/scripts/core.js"></script>
         </body>
         ```
+
+## DOM CSS解析
+
+- 浏览器载入 HTML 文件后将其转化成一个 DOM (Document Object Model)
+DOM 是文件在计算机内存中的表现形式
+- 一个 DOM 有一个树形结构
+- 标记语言中的每一个元素、属性以及每一段文字都对应着结构树中的一个节点 (Node/DOM 或 DOM node)
+- 节点由节点本身和其他 DOM 节点的关系定义, 有些节点有父节点, 有些节点有兄弟节点 (同级节点)
+
+### 无法解析
+
+- 若浏览器遇到无法解析的CSS选择器或声明时 忽略并继续解析后续内容
+    - 包括代码错误或未支持的CSS
+
+- 浏览器兼容: 为同元素指定多个CSS
+
+## CSS 选择器
 
 
 ### HTML标签/元素
@@ -102,9 +119,6 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
     - 父/子元素也是祖先/后代元素
 
 3. 兄弟元素：拥有**相同父**元素的元素
-
-
-## CSS 选择器
 
 
 ### 基本选择器
@@ -398,8 +412,12 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
         - ~~同一 `character` 可以有不同字形(文字的形状)~~
 
 1. 字体族 `font-family`
+    - `<family-name>`: 一个字体族的名字, eg. `"Lucida Console"` `"Helvetica"`
+    - `<generic-name>`： 通用字体族
+        - `Serif`衬线 `Sans-serif`无衬线 `Monospace`等宽 
+        - `Cursive`草书(连笔) `Fantasy`花式艺术 
+        - `system-ui` `emoji` `math`
     - [web safe CSS font](https://www.cssfontstack.com/)
-    - 通用字体族: `Serif`衬线 `Sans-serif`无衬线 `Monospace`等宽 `Cursive`手写 `Fantasy`花式
     - 若字体族名称包含 空格 或 非标准符号 时应当加引号
 
 1. Web字体
@@ -427,7 +445,7 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
         3. 使用 JavaScript 加载字体 
             - Web Font Loader
             - 可同一 x高度
-    
+
 2. 字体样式 font-style
     - `font-style:` `normal` | `italic` 
     - 若不存在相应的倾斜变体，浏览器会模拟倾斜效果
@@ -582,6 +600,8 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
     1. alpha 取值 0 ~ 1.0 (不透明 ~ 完全透明)
     2. h 取值 0 ~ 360 (deg) (720 == 360)
     3. s,l 取值 0% ~ 100%
+
+4. hwb()
 
 ## 背景
 
