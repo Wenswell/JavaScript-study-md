@@ -102,16 +102,17 @@ DOM 是文件在计算机内存中的表现形式
 
 - 浏览器兼容: 为同元素指定多个CSS
 
-## CSS 选择器
 
 
-### HTML标签/元素
+# CSS 选择器
+
+## HTML 标签/元素
 
 HTML 标签: HTML 标记标签通常被称为 HTML 标签 (HTML tag)
 HTML 元素: 指从 start tag 到 end tag 的所有代码
 
 
-### 元素关系
+## 元素关系
 
 1. 父/子 元素：**直接** 包含子/被父包含 的元素
 
@@ -121,51 +122,72 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
 3. 兄弟元素：拥有**相同父**元素的元素
 
 
-### 基本选择器
-    
-1. 类型/元素 选择器: `tag_name{}`
-2. id 选择器: `#id_value{}`
-3. 类选择器: `.class_name{}`
-4. 属性选择器: 
-    - `tagName/* attributeName[(^/$/*/~/|)(=attributeValue)]`
-    - 指定/所有元素中 有属性名\[/属性名为/属性名开头/结尾/包含字符/包含单词(以空格分开)/包含字符或字符加连字符-]
-5. 通配选择器 `*{}`
+## Basic selectors | 基本选择器
+
+Selectors|选择器|eg.
+--|--|--
+Universal selector  | 通配      | `* {style properties}`
+Type selector       | 类型/元素 | `elementname {style properties}`
+Class selector      | 类        | `.classname {style properties}`
+ID selector         | id        | `#id_value {style properties}`
+Attribute selector  | 属性      |  `tagName/* attributeName[(^/$/*/~/|)(=attributeValue) [i]]`<br>指定/所有元素中 有属性名\[/属性名为/^属性名开头/结尾$/包含*字符/包含~单词(以空格分开)/包含字符或字符加连字符-/\[大小写不敏感]]
 
 
-### 交集/并集 选择器
+## Grouping selectors | 分组选择器
 
-1. 交集选择器  
-    - 选择器1 选择器2 选择器n{}
-    - 注意: 若存在则必须使用元素选择器开头
-    
-2. 并集选择器/选择器分组
-    - 选择器1, 选择器2, 选择器n{}
-
-
-### 按元素关系选择
-
-0. 组合器(combinator):描述两侧选择符组合的方式(`>` `+` `~`)
-1. 子元素选择器: `父元素 > 子元素{}`
-2. 后代元素选择器: `祖先元素 后代元素{}`
-3. 兄弟元素选择: 
-    `前一个 + 下一个{}` :选择**紧邻**的下一个兄弟元素(若非紧邻则无效)
-    `兄 ~ 弟元素{}` :选择之后的所有的弟元素
+- Selector list | 选择器列表 | `,`
+    - `,` 常被称为 并集选择器 或 并集组合器
+    - `,` 选择所有能被列表中的任意一个选择器选中的节点
+- 注意
+    1. 若列表中某一选择器不被支持, 则**整条**规则失效
+    2. 可用 `:is()` 选择器忽视失效参数
+    3. `:is()` 选择器 会使所含所有选择器拥有**相同**优先级
 
 
-### ::伪元素 pseudo-elements
+## Combinators | 组合器
 
+0. 组合器(combinator): 描述两侧选择符组合的方式(`>` `+` `~` `||`)
+1. Descendant combinator | ` ` | 后代 
+    - 选择前一个元素所有匹配的后代节点
+    - `article` ` ` `p`: 选择`article`下所有`p`元素
+2. Child combinator | `>` | 直接子代
+    - 选择前一个元素直接的所有子代节点
+    - `ul` `>` `li`: 选择直接嵌套在 `ul` 内的所有 `li` 元素
+3. General sibling combinator | `~` | 一般兄弟
+    - 同个父元素下前一元素后的所有(兄)弟元素
+    - `p` `~` `span`: 选择同一父元素下 `p` 后的所有 `span` 元素
+4. Adjacent sibling combinator | `+` | 紧邻兄弟
+    - 同个父元素下紧邻前一元素的(兄)弟元素
+    - `img` `+` `p`: 紧邻图片的那个段落元素
+
+
+## pseudo 伪选择器
+
+1. pseudo-elements | `::` | 伪元素
+    - 一个选择器中只能用**一个**伪元素
+    - 伪元素必须紧跟在语句中的简单选择器/基础选择器之后
+
+2. pseudo-classes | `:` | 伪类
+    - 一个选择器中可同时一起写**多个**伪类, 类似于普通的类
+
+### pseudo-elements | `::` | 伪元素
+
+- 伪元素是一个附加至选择器末的关键词, 允许对被选择元素的**特定部分**修改样式
 - 伪元素: 页面中特殊的 非真实/单独 存在的元素
-- 伪元素选择器:
-    - 一般以 `::` 开头 (`::` 前可加元素限定)
-    1. `::first-letter/::first-line{}` 
-    2. `::selection{}` 
-    3. `::before/after{content: ""; }` 
+- 伪元素选择器: 用于表示无法用 HTML 语义表达的实体
+    ``` css {.line-numbers}
+        selector::pseudo-element {
+            property: value;
+        }
+    ```
+    1. eg. `::first-letter/::first-line{}` 
+    2. **生成内容**`::before/after{content: ""; }` 
         - 元素开始前/结束后(非内容部分)
         - 需要结合 `content` 添加显示内容
         - `content` 内容**无法**被选中
 
 
-### :伪类 pseudo-classes
+### pseudo-classes | `:` | 伪类
 
 - 伪类: 不存在/特殊的类, 描述一个元素的特殊状态
 - 伪类选择器: 
@@ -174,7 +196,6 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
     2. `:nth-child(n)` 选中第n个(n为自然数)
         - 若只填 n/(2n|even)/(2n+1|odd)/(-n+3) 选中 所有(0~+∞)/偶数/奇数/前3个 元素
         - 以上3个child伪类皆根据所有相同子元素排序(若被占位(如首位非同元素)则**跳过**(无效果))
-
     3. `:first/last-of-type`
     4. `:nth-of-type()`
         - 以上3个of-type伪类在同类型元素中排序, 功能与child伪类相似
@@ -208,51 +229,113 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
     10. 链接伪类**优先级**: 排序爱恨原则 **L**o**V**e and **HA**te
         - a:active 在 a:hover 之后; a:hover 在 a:link 和 a:visited 之后，才能生效！
 
-## 样式优先级
+
+
+# 样式优先级
 
 > 1.层叠机制; 2.选择符的特殊性
 
 
-### 层叠机制:
+## 层叠机制
 
 - 层叠机制的原理是为规则赋予不同的重要程度 
+- 不建议使用`!important`
 
-1. 标注为 `!important` 的用户样式 
-2. 标注为 `!important` 的作者样式 
-3. 作者样式 
-4. 用户样式 
-5. 浏览器(或用户代码)的默认样式
+0. 按下列顺序, 后声明的规则覆盖之前的声明
 
+1. 用户代理样式表中的声明(如浏览器的默认样式, 在未设置其他样式时使用)
+2. 用户样式表中的常规声明(由用户设置的自定义样式)
+3. 作者样式表中的常规声明( web 开发人员设置)
+4. 作者样式表中的 !important 声明
+5. 用户样式表中的 !important 声明
+6. 用户代理样式表中的 !important 声明
 
-### 特殊性
+## 特殊性
 
 - 在层叠机制基础上再按选择符的特殊性排序
 
 选择符|特殊性|十进制特殊性
 -----|-----|------
-`inline`内联样式|1,0,0,0|100
+`inline`内联样式|1,0,0,0|1000
 `id`选择器|0,1,0,0|100
-`class`类, *(id)属性*, 伪类选择器|0,0,1,0|10
-`elements`类型/元素, 伪元素选择器|0,0,0,1|1
+类, *属性*, 伪类选择器|0,0,1,0|10
+类型/元素, 伪元素选择器|0,0,0,1|1
 `*`通配选择器|0,0,0,0|0
-继承样式(一定被覆盖,包括通配选择)|.无优先级|-
+继承样式(一定被覆盖,包括通配选择)|无优先级|-
 
-6. 特殊性高的选择符覆盖低的
-7. 若特殊性相等则**后定义**的规则优先
-1. 权重**不能**跨数量级(不会溢出)
-2. 比较时将所有选择器优先级相加再排序
+1. 特殊性高的选择符覆盖低的
+2. 若特殊性相等则**后定义**的规则优先
+3. 权重**不能**跨数量级(不会溢出)
+4. 比较时将所有选择器优先级相加再排序
     eg. `div#id1 .class1 .class2` -> `0,1,2,1`
-3. 分组则单独计算各组(`… , … , …`)
+5. 分组则单独计算各组(`… , … , …`)
 
 
-## 盒模型
+## 级联层的顺序 `@layer`
 
-> 所有元素都被看作一个矩形盒子, 包含元素的内容+内边距+边框+外边距
+在级联层中声明 CSS 
+1. 优先级的顺序由声明层的顺序决定
+2. 不在已声明层中的样式 按声明顺序组合 作为最后声明的层(最高优先度)
+3. 对存在冲突的常规 (无`!important`) 样式, 后定义的层优先级高
+4. 对于带有 `!important` 的样式, 先前的层中的 important 样式优先级要高于 后面的及未在层中声明的 important 样式
+5. 但内联样式比所有作者定义的样式的优先级都要高, 不受级联层规则的影响
 
-`content`
-`padding`
-`border` 
-`margin` 
+6. 当你在不同的层中有多个样式块，且其中提供了对于某一元素的单一属性的相互冲突的值时，声明该冲突样式的层的顺序将决定其优先级。而不是高优先级的层直接覆盖低优先级的层中的所有样式
+
+9. 单独的一个层中的样式的优先级仍旧会起作用。
+
+
+
+
+# 盒模型
+
+> 外部显示类型: 决定盒子是块级还是内联
+> 内部显示类型: 决定盒子的内部如何布局
+
+## block box & inline box
+
+1. block box 块级盒子: 由块级元素生成
+    - 每个盒子都会换行
+    - 盒子在内联方向占据父元素所有可用空间(与父元素同宽)
+    - `width` `height` 有作用
+    - `padding margin border` 会将其他元素推开
+
+2. inline box 内联盒子: 由内联元素生成
+    - 盒子不会换行
+    - `width` `height` 不起作用
+    - 水平与垂直方向的`padding margin border`**都会**被应用
+        - 水平(内联)方向的应用会把其他 inline态的盒子 推开
+        - 垂直方向的应用**不**会把其他 inline态的盒子 推开
+
+## 标准/替代 盒模型
+
+> 完整的CSS盒模型(定义)应用于块级盒子
+
+0. CSS 中组成一个块级盒子需要
+        1. Content box
+        2. Padding box
+        3. Border box
+        4. Margin box
+
+1. 标准盒模型 `box-sizing: content-box;`
+
+    0. The standard CSS box model
+    1. 设置 `width` `height` 时实际设置的是 `content box`( `width height` 属性应用给 `content`)
+    3. 添加的 `padding border margin` 会增加元素盒子的大小
+    4. 浏览器默认使用标准模型
+
+2. 替代盒模型  `box-sizing: border-box;`
+
+    0. The alternative CSS box model
+    1. 所有宽度都是可见宽度
+    2. 设置所有元素使用替代模型
+    ``` css {.line-numbers}
+    html { 
+        box-sizing: border-box; }
+    *, *::before, *::after {
+        box-sizing: inherit; }
+    ```
+
 `outline`: border外围的一条线, 不影响布局(不占位)
 
 
@@ -262,8 +345,6 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
     - box-sizing: `content-box` | `border-box` | `inherit`
 
 1. `box-sizing: content-box`
-    - width height 属性应用给 `content`
-    - 添加的 padding border margin 会增加元素盒子的大小
 
 2. `box-sizing: border-box`
     - width height 属性包含 `padding + border`
@@ -278,16 +359,24 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
 
 ### 可见格式化模型
 
-1. 块级盒子 (block box) :由块级元素生成
+1. block box 块级盒子: 由块级元素生成
+    - 每个盒子都会换行
+    - 盒子在内联方向占据父元素所有可用空间(与父元素同宽)
+    - `width` `height` 有作用
+    - `padding margin border` 会将其他元素推开
 
-2. 行内盒子 (inline box) :由行内元素生成
-    - 行内盒子的高度`height`**不受**垂直方向上的内外边距与边框的影响
+2. inline box 内联盒子: 由内联元素生成
+    - 盒子不会换行
+    - `width` `height` 不起作用
+    - 水平与垂直方向的`padding margin border`**都会**被应用
+        - 水平(内联)方向的应用会把其他 inline态的盒子 推开
+        - 垂直方向的应用**不**会把其他 inline态的盒子 推开
 
-3. 行盒子 (line box) :由一行文本形成的水平盒子
-    - 行盒子的高度`height`由所含的行内盒子决定
+3. line box 行盒子:由一行文本形成的水平盒子
+    - 行盒子的高度`height`由所含的内联盒子决定
     - 修改行盒子大小:
         1. 修改行高 `line-height`
-        2. 修改所含行内盒子的水平内外边距与边框
+        2. 修改所含内联盒子的水平内外边距与边框
 
 4. 匿名盒子: 由不与任何特定元素相关的元素生成
     - 匿名块盒子(anonymous block box)
@@ -302,7 +391,7 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
 
 - 垂直方向上两个相邻外边距会折叠成一个, 其高度值为两者中较大的一个
     - 范围: 数量`>=2`个的垂直`margin` 直接接触(之间无`border`)
-    - 限定: 只发生在文档常规文本流中**块级盒子**的垂直方向上(行内,浮动或绝对定位盒子的外边距不会折叠)
+    - 限定: 只发生在文档常规文本流中**块级盒子**的垂直方向上(内联,浮动或绝对定位盒子的外边距不会折叠)
 
 ### 包含块 containing block
 
@@ -340,7 +429,7 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
 - `float:` `left` | `right` `;`
 1. 浮动元素脱离常规文档流, 进入浮动流
 2. 对块级元素不可见
-3. 对行内元素inline及文本**可见**
+3. 对内联元素inline及文本**可见**
 
 - 清除 clear
     - `clear:` `left` | `right` | `both` | `none` `;`
@@ -522,7 +611,7 @@ HTML 元素: 指从 start tag 到 end tag 的所有代码
     - 字符间距 `letter-spacing` 可便于abbr的识别(与`font-variant:small-caps`联用)
 
 2. 垂直对齐 vertical-align
-    - 基线: 每个行内盒子的底边都默认对齐于靠近底部的共同水平线
+    - 基线: 每个内联盒子的底边都默认对齐于靠近底部的共同水平线
     - `vertical-align:` `baseline`(默认) | `sub` | `super` | `inherit` ...
     - vertical-align 会影响行盒子高度
 
