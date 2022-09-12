@@ -4,7 +4,7 @@
 
 1. **ECMA-262 规范** 确地定义了Java这门语言。
 
-2. **MDN（Mozilla）JavaScript 索引** 是一个获取关于个别语言函数、方法等深入信息的很好的信息来源。
+2. **MDN (Mozilla) JavaScript 索引** 是一个获取关于个别语言函数、方法等深入信息的很好的信息来源。
 
 3. **兼容性表** eg.[每个功能的支持表](http://caniuse.com)
 
@@ -14,7 +14,7 @@
 
 2. **轻量编辑器**
 
-# JavaScript 基础知识
+# JavaScript 基础
 
 > *JavaScript 是一门动态类型、面向对象的脚本 (Script) 语言。*
 
@@ -30,7 +30,7 @@
 
 2. 外部脚本: 在 `<script>` 中通过 `src` attribute(特性) 引入 JS 文件
 
-- **注意**: 如果设置了 src 特性，script 标签内容将会被忽略
+- **注意**: 如果设置了 src 特性, **此** script 标签的内容将会被忽略(不能同时生效)
 
 ```html {.line-numbers}
 <script src="./01.js"></script>
@@ -39,41 +39,43 @@
 
 ## 代码结构
 
-### 语句
+### Statements | 语句
 
-> *语句是执行行为（action）的语法结构和命令。*
+> *语句是执行行为 (action) 的语法结构和命令。*
 
-1. 语句之间可以使用分号进行分割
+1. 语句之间可以使用`;`分号进行分割
 
-2. (不建议) 存在换行符（line break）时，大多数情况下可以省略分号
+2. *(不建议)* 存在换行符 (line break) 时, 大多数情况下可以省略分号
 
-### 现代模式，"use strict"
+### "use strict" | 现代模式
 
 > 2009 年 ECMAScript 5 (ES5) 出现。ES5 规范增加了新的语言特性并且 *修改了一些已经存在的特性* 。
 
-1. "use strict"处于脚本文件/函数体的 **最顶部** 时，整个脚本文件/函数都将以“现代”模式进行工作。
+1. "use strict"处于脚本文件/函数体的 **最顶部** 时, 整个脚本文件/函数都将以“现代”模式进行工作
 
-2. 没有办法取消 use strict , **没有** 指令可以使程序返回默认模式。
+2. 没有办法取消 use strict , **没有**指令可以使程序返回默认模式
 
-3. 浏览器开发者控制台运行代码时，默认不启动 use strict 。
+3. 浏览器开发者控制台运行代码时, 默认不启动 use strict 
 
-### 变量 let aVariable = "UserName"
+## Variables | 变量 
 
 > 变量 是数据的“命名存储”。
 
+0. `let aVariable = "anyValue";`
+
 1. 可以在一行中声明多个变量
 
-2. 一个变量应该只被声明一次。(重复声明会触发 error)
+2. 一个变量只能被声明一次 (重复声明会 error)
 
 ### 变量命名
 
-1. 变量名称必须仅包含 字母，数字，符号 $ 和 _
+1. 名称仅能包含 `字母`, `数字`, 符号 `$` 和 `_`
 
-2. 首字符必须非数字
+2. 首字符必须非数字(只能以`字母/$/_`开头)
 
 3. *区分大小写*
 
-4. 驼峰式命名法（camelCase）
+4. 驼峰式命名法 (camelCase) 
 
 5. 保留字无法用作变量命名
 
@@ -83,7 +85,7 @@
 
 1. 使用 const 声明的变量称为“常量/Constant”
 
-2. 常量不能被修改，否则报错
+2. 常量不能被修改, 否则报错
 
 3. **const命名** 
     - 小写适合计算出来的值
@@ -96,9 +98,9 @@
 
 ## 数据类型
 
-> *JavaScript 有 8 种基本的数据类型（7 种原始类型 `Number、String、Boolean、Null、undefined、symbol、bigInt`, 1 种引用类型 [`object`](##object) ）*
+> *JavaScript 有 8 种基本的数据类型 (7 种原始类型 `Number、String、Boolean、Null、undefined、symbol、bigInt`, 1 种引用类型 [`object`](##object) ) *
 
-- JS 属于 “动态类型”（dynamically typed）编程语言: 定义的变量并不会在定义后被限制为某一数据类型
+- JS 属于 “动态类型” (dynamically typed) 编程语言: 定义的变量不会被限制为某一数据类型
     ```javascript {.line-numbers}
     num1 = "动态类型";
     num1 = 11.45;
@@ -107,28 +109,30 @@
 
 1. Number 类型代表 整数 和 浮点数 
 
-- Number 类型包括“特殊数值（“special numeric values”）
-    - Infinity、-Infinity 和 NaN
+- Number 类型包括 “特殊数值” (special numeric values) 
+    - `Infinity` , `-Infinity` , `NaN`
     ```javascript {.line-numbers}
     alert( 1 / 0 );     // Infinity
     alert( Infinity );  // Infinity
     ```
 
-2. BigInt 类型
-    - “number” 类型无法表示大于 (2^53-1) 或小于 -(2^53-1) 的整数
-    - 通过将 n 附加到整数字段的末尾来创建 BigInt 值 (114514n)
-
 - NaN
     - NaN 代表一个计算错误
     - NaN 是粘性的, 任何对 NaN 的进一步数学运算都会返回 NaN
-        - (只有一个例外：NaN ** 0 结果为 1)
-    - JS 中数学运算是**安全**的: 可以 除以 0，将非数字字符串视为数字等
-        - 脚本永远不会因一个致命的错误（“死亡”）而停止。
-    - 最坏的情况下，我们会得到 NaN 的结果
+        - 只有一个例外：NaN ** 0 == 1
+    - JS 中数学运算是**安全**的: 可以 除以 0, 将非数字字符串视为数字等
+        - 脚本永远不会因一个致命的错误 (“死亡”) 而停止。
+        - 最坏的情况下会得到 NaN 的结果
+
+2. BigInt 类型
+    - `number` 无法安全表示大于 (2^53-1) 或小于 -(2^53-1) 的整数
+        - 超出安全范围会出现精度问题(奇数 -> 偶数)
+        - `Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2; //ture`
+    - 将 n 附加到整数字段的末尾来创建 BigInt 值 (`114514n`)
 
 3. String 类型 
-    - 字符串必须被括在引号里
     - JavaScript 中没有 character 类型
+    - 字符串必须被括在引号里
     - 三种包含字符串的方式: 
         - 双引号和单引号都是“简单”引用; 
         - 反引号是 **功能扩展** 引号
@@ -137,30 +141,35 @@
         alert( `${UserName}'s age is ${18 + 6}` ); 
         ```
 
-4. Boolean 类型（逻辑类型） 
-    - typeof true // "boolean"
+4. Boolean 类型 (逻辑类型)  
+    - `alert( typeof true );  //"boolean"`
 
 5. “null” 值
-    - JavaScript 中的 null 仅仅是一个代表“无”、“空”或“值未知”的特殊值。
+    - JavaScript 中的 null 仅仅是一个代表“无”、“空”或“值未知”的特殊值
 
 6. “undefined” 值
     - undefined 的含义是 未被赋值
+    - 未进行初始化的事物的默认初始值
 
 7. object 类型和 symbol 类型
     - symbol 用于唯一的标识符; object 用于更复杂的数据结构
 
-9. typeof 运算符
+- typeof 运算符
     - 例外: 
     - ```javascript {.line-numbers}
-        typeof null == "object" // JavaScript 编程语言的设计错误
+        typeof null == "object" // JavaScript 的设计错误
         typeof function(){} == "function" // 函数被特殊对待
         ```
+    - `null` 有自己的类型, 不是object
+    - function 隶属于 `object`,但在 typeof 中被分为 function
+
+
 ## 交互函数: `alert` / `prompt` / `confirm`
 
 1. `alert ("Hello");`
     - 对 `alert` 的调用没有返回值 / **返回 `undefined`**
 
-2. `Result = prompt Display [, Default]);`
+2. `Result = prompt (Display [, Default]);`
     - `[...]` 方括号 表示该**参数可选**/非必需
     - 若取消输入, 返回 **null**
 
@@ -168,22 +177,22 @@
     - 点击 确定/取消 返回 `true / false`
 
 - `alert/prompt/confirm` 都是模态的：
-    1. 暂停脚本的执行，弹出 **模态窗口** 
-    2. 不允许用户与该页面的其余部分进行交互，直到窗口被解除
+    1. 暂停脚本的执行, 弹出 **模态窗口** 
+    2. 不允许用户与该页面的其余部分进行交互, 直到窗口被解除
 
 - 模态窗 (model window)
-    - “modal” 意味着用户不能与页面的其他部分（例如点击其他按钮等）进行交互，直到他们处理完窗口
+    - “modal” 意味着用户不能与页面的其他部分 (例如点击其他按钮等) 进行交互, 直到他们处理完窗口
 
 - 方法的两个**限制**: 模态窗口的 确切位置/确切外观 皆取决于浏览器, JS不能修改
 
 ## 类型转换
 
-> *大多数情况下，运算符和函数会自动将赋予它们的值转换为正确的类型。*
+> *大多数情况下, 运算符和函数会自动将赋予它们的值转换为正确的类型。*
 
 ### 字符串转换 String()
 
-- `alert(theValue)` 将 `theValue` 转换为*字符串类型*
-- `String(theValue)` 将 `theValue` 转换为字符串类型
+- `alert(theValue)` 将 `theValue` 转换为*String类型*
+- `String(theValue)` 将 `theValue` 转换为String类型
 
     ```javascript {.line-numbers}
     let value = true;
@@ -194,9 +203,9 @@
 
 ### 数字型转换 Number()
 
-- 算术函数和表达式中，会自动进行 `number` 类型转换。
+- 算术函数和表达式中, 会自动进行 `number` 类型转换。
 - `Number(theValue)` 将 `theValue` 转换为 `number` 类型。
-- 若 `theValue` 不是一个有效的数字，
+- 若 `theValue` 不是一个有效的数字, 
     - `null / ""` -> `0` ; `true/false` -> `1/0`
     - **`undefined` -> `NaN`** ; `string` -> `去除首尾空格后的数字` / `NaN`
     ```javascript {.line-numbers}
@@ -209,18 +218,18 @@
 
 - 发生在逻辑运算中
 - 也可显式地调用 `Boolean(value)` 进行转换
-- 直观上为“空”的值（ 如 `0`, `""`, `null`, `undefined`, `NaN`）将变为 `false`
-- 其他值 ( 如 **`"0"`, `" "`** ) 变成 `true` ( JS 中，非空的字符串总是 `true` )
+- 直观上为“空”的值 ( 如 `0`, `""`, `null`, `undefined`, `NaN`) 将变为 `false`
+- 其他值 ( 如 **`"0"`, `" "`** ) 变成 `true` ( JS 中, 非空的字符串总是 `true` )
 
-## 基础运算符，数学
+## 基础运算符, 数学
 
-### 术语：“一元 / 二元运算符”，“运算元”
+### 术语：“一元 / 二元运算符”, “运算元”
 
 1. **运算元 /** 参数 —— 运算符应用的对象 
     - eg. `左运算元 + 右运算元 = 结果`
 
 2. 一元运算符: 运算符只对应一个运算元
-    - eg. 一元负号运算符(unary negation) `-`，作用是对数字进行正负转换
+    - eg. 一元负号运算符(unary negation) `-`, 作用是对数字进行正负转换
     - `x = -x; // -1`
 3. 二元运算符: 一个运算符拥有两个运算元
     - eg. 二元运算符减号 `-`
@@ -237,29 +246,30 @@
 
 ### 二元运算符 `+` 连接/合并字符串
 
-- 只要任意一个运算元是字符串，另一个运算元也将被转化为字符串
+- 只要任意一个运算元是字符串, 另一个运算元也将被转化为字符串
 - 运算符从左到右 **按顺序** 工作
     ```javascript {.line-numbers}
     alert( 2 + 2 + "1" + 2 ); // "412"
     alert( "2" + 2 + 1 + 2 ); // "2212"
     ```
-- 其他算术运算符 **只对数字** 起作用，并且总是将其运算元转换为数字
+- 其他算术运算符 **只对数字** 起作用, 并且总是将其运算元转换为数字
     ```javascript {.line-numbers}
-    alert( 6 - '2' );   // 4，将 '2' 转换为数字
-    alert( '6' / '2' ); // 3，将运算元都转换为数字
+    alert( 6 - '2' );   // 4, 将 '2' 转换为数字
+    alert( '6' / '2' ); // 3, 将运算元都转换为数字
     alert( 6 - '2  2'); //NaN
     ```
 
 ### 一元运算符 `+` 数字转化
 
-- 一元运算符`+` / `+`应用于单个值，对数字 **无作用**
-- 如果运算元不是数字，`+`则会将其转化为数字
+- 一元运算符`+` / `+`应用于单个值, 对数字 **无作用**
+- 如果运算元不是数字, `+`则会将其转化为数字
 
     ```javascript {.line-numbers}
     let y = -2;
-    alert( +y ); // -2
+    alert( +y );    // -2
     alert( +true ); // 1
     alert( +"" );   // 0
+    alert( +"str" );// NaN
     ```
 
 ### 运算符优先级
@@ -269,33 +279,41 @@
 优先级|符号|Associativity
 :-:|-|-
 19|`( … )` |N/A
-15|`+ …`, `- …`, (Unary一元)| right-to-left	
 16|`… ++`, `… --`|N/A
+15|`+ …`, `- …`, (Unary一元)| right-to-left	
+14|`++ …`, `-- …`|N/A
 14|`… ** …` | right-to-left	
 13|`… * …`, `… / …`, `… % …`| left-to-right 
 12|`… + …`, `… - …` | left-to-right	
 2|`… = …`, `+=`, `-=`, `*=`, `/=` | **right-to-left**
 1|`… , …`|left-to-right	
-- 链式赋值（Chaining assignments）
+- 一元运算符优先级 高于 二元运算符
+- 链式赋值 (Chaining assignments) 
     - `=` 从右至左计算
+
+### 原地修改
+
+- 所有算术和位运算符都有简短的“修改并赋值”运算符
+`… = …` `… += …` `… -= …` `… *= …` `… /= …` `… %= …` `… **= …`
+- 其优先级都与 `=` 相同 (`Precedence == 2`)
 
 ### 自增/自减
 
-- 自增/自减只能应用于变量。对数值用（如 `5++`）会报错
-- 运算符置于变量 前/后 ，被称为“ 前/后 置形式”
+- 自增/自减只能应用于变量。对数值用 (如 `5++`) 会报错
+- 运算符置于变量 前/后 , 被称为“ 前/后 置形式”
 
 ### 位运算符
 
-- 位运算符把运算元当做 32 位整数，并在其**二进制**表现形式上操作
+- 位运算符把运算元当做 32 位整数, 并在其**二进制**表现形式上操作
 - 按位与`&`, 按位或`|`, 按位异或`^`, 按位非`~`, 左移`<<`, 右移`>>`, 无符号右移`>>>`
 
 ### 逗号运算符
 
-- 优先级最低(1), 是最少见最不常使用的运算符之一
-- 每个语句都运行，但是只有 **最后的语句** 的结果会被返回
+- 优先级最低(`Precedence == 1`) *低于 `=`* , 是最少见最不常使用的运算符之一
+- 每个语句都运行, 但是只有 **最后的语句** 的结果会被返回
     ```javascript {.line-numbers}
     let a = (1 + 2, 3 + 4);
-    alert( a ); // 7（返回3+4, 1+2被舍弃）`
+    alert( a ); // 7 (返回3+4, 1+2计算后结果3被舍弃) `
     ```
 
 ## 值的比较
@@ -304,24 +322,25 @@
 
 ### 字符串比较
 
-- 字符串按字符（母）逐个进行比较
+- 字符串按字符 (母) 逐个进行比较
 
 - 比较算法:
     - 按 Unicode 编码顺序比较同位置的单个字符
-    - 未结束（还有未比较的字符/更长）的字符串更大
+    - 未结束 (还有未比较的字符/更长) 的字符串更大
 
-### 不同类型间的比较
+### *不同类型* 间的比较
 
-- 先转化为数字（number）再判定大小
-- 忽略首位空格
-- `""` `==` `0` `==` `false` `!==` `"0"`
+- `'2' > '123'; // ture!`
+- 先转化为数字 (number) 再判定大小
+- 忽略首尾空格
+- `""` `==` `' 0 '` `==` `0` `==` `false` `!==` `"0"`
     ```javascript {.line-numbers}
     let a = 0;  // Boolean(a)为false
-    let b = "0";// Boolean(b)为true
-    alert(a == b); // true! (0=0)
+    let b = " 0 ";// Boolean(b)为true
+    alert(a == b); // true! (0==0)
     ```
 
-### 严格相等
+### 严格相等 `===`
 
 - 比较时不会做任何的类型转换 (字符串/数值/布尔值)
 
@@ -333,7 +352,7 @@
     null !== underfined // ture, 严格不相等
     ```
 - 使用数学式或其他比较方法 `< > <= >=` 时, `null/underfined` 被转为数字
-    - `null` 被转为 `0`，`undefined` 被转为 `NaN`
+    - `null` 被转为 `0`, `undefined` 被转为 `NaN`
     - ``` javascript {.line-numbers}
         alert( null > 0 );  // false , 0 > 0
         alert( null == 0 ); // false , null只与underfined相等
@@ -345,11 +364,11 @@
 
 ## 条件分支：if 和 '?'
 
-- `if (…)` 语句会计算圆括号内的表达式，并将计算结果转换为布尔型。
-    - 数字 0、空字符串 ""、null、undefined 和 NaN 都会被转换成 `false`, 它们被称为“假值（falsy）”值。
-    - 其他值被转换为 `true`, 所以它们被称为“真值（truthy）”。
+- `if (…)` 语句会计算圆括号内的表达式, 并将计算结果转换为布尔型。
+    - 数字 0、空字符串 ""、null、undefined 和 NaN 都会被转换成 `false`, 它们被称为“假值 (falsy) ”值。
+    - 其他值被转换为 `true`, 所以它们被称为“真值 (truthy) ”。
 
-### 条件 / 三元运算符 '?'
+### 条件/三元运算符 '?'
 
 - 可嵌套使用
 - 需要执行不同的代码分支时应该使用 `if`
@@ -360,25 +379,27 @@ let result = (condition1) ? value1 :
              End-Value;
 ```
 
-## 逻辑运算符（新增 `??` ）
+## 逻辑运算符 (新增 `??` ) 
 
 - JS 有四个逻辑运算符：`||` `&&` `!` `??`(空值合并运算符)
-- 运算符可 被应用于/输出 **任意类型的值**，而不仅仅是布尔值
+- 运算符可 被应用于/输出 **任意类型的值**, 不仅是布尔值
 
 1. `result = value1 || value2 || value3;`
     - 从左到右依次计算操作数
     - 返回 第一个**真值** / 该链的最后一个值
-    - `||` **无法区分** `false` `0` `""` `null`/`undefined` (见`??`)
-
+    - 短路求值 Short-circuit evaluation
+        `条件 || 命令  //条件为假时命令才会执行` 
+    - `||` **无法区分** `false` `0` `""` `null`/`undefined` `NaN` (见`??`)
+    
 2. `result = value1 && value2 && value3;`
-    - 从左到右依次计算操作数。
-    - 返回 *第一个假值* / 该链的最后一个值
+    - 从左到右依次计算操作数
+    - 返回 第一个**假值** / 该链的最后一个值
 
 3. `!!"non-empty string" // true`
     - `!` 将操作数转化为布尔类型`true/false`并返回相反的值
     - `!!…` 作用相当于 `Boolean(…)`
 
-4. 空值合并运算符 `??`（新增）
+4. 空值合并运算符 `??` (新增) 
     - 返回 第一个 **`已定义的(defined)`** 值
     - 将 `非null` `非undefined` 的表达式称为 `已定义的(defined)`
     - 用于为变量分配默认值 (对`||`的优化)
@@ -390,12 +411,12 @@ let result = (condition1) ? value1 :
 
 1. `while` 与 `do…while`
     - `while (condition) { // 所谓的"循环体", 放有代码 }`
-    - 循环体的 单次执行 叫作 *一次迭代*
+    - 循环体的 单次执行 叫作 *一次迭代(an iteration)*
     - 循环条件被计算并转化为布尔值 (可为任何表达式或变量)
     <br />
     
 2. `for (;;) { // 无限循环 }`
-    - "内联"变量声明: 变量在循环中声明
+    - "内联"变量声明: 变量**只在**循环中可见
     <br />
 
 3. 跳出循环 `break` / 继续下一次迭代 `continue`
@@ -420,14 +441,15 @@ let result = (condition1) ? value1 :
     - ``` javascript {.line-numbers}
         switch(x) {
         case 'value1':  // if (x === 'value1')
+        case 'value2':  // case1 和 case2 执行同样的代码
             ...    [break]
-        default:
+        [default:]
             ...    [break]
         }
         ```
 - 这里的相等是 **严格相等**
 - `switch` 换成 `else-if` 时应使用 `===` 来判定条件
-- 如果没有 `break`, 程序将不经任何检查继续执行下一个 `case`
+- 如果没有 `break`, 程序不检查, 继续执行下一个 `case`
 - `switch` 和 `case` 都允许任意表达式
 - 共享同一段代码的几个 `case` 分支可以被分为一组
 
@@ -436,34 +458,35 @@ let result = (condition1) ? value1 :
 - 使用 **函数声明** 创建函数。
 -   ``` javascript {.line-numbers}
     function name(parameters, delimited, by, comma) {
-    ...body... /* 函数体 */ }
+        ...body... /* 函数体 */ 
+    }
     ```
-- 在代码块` {...} `后以及有代码块的语法结构（例如循环）后不需要加分号`;`
+- 在代码块` {...} `后以及有代码块的语法结构 (例如循环) 后**不需要**加分号`;`
 - 局部变量: 在函数中声明的变量只在该函数内部可见
-    - 若函数内部声明了同名变量，则 *优先使用* 内部变量
+    - 若函数内部声明了同名变量, 则 *优先使用* 内部变量
+        - 此时函数内部的操作不改变全局变量 (只改变内部的变量副本)
 -  **全局** 变量: 任何函数之外声明的变量
 - 默认值
-    - 若被调用函数的参数未提供，相应的值默认为 `undefined`
+    - 若被调用函数的参数未提供, 相应的值默认为 `undefined`
     - 用 `parameter="..."` 为函数声明中的参数指定"默认"值
-- 后备默认参数
-    - 可先声明再设置默认值(放在函数执行中)
-    - 可使用 `??` , eg.`alert(count ?? "unknown");`
+    - 在函数中检查设置默认值: 使用 `??` , eg.`alert(num ?? "empty");`
 - 返回值
     - 单纯的 `return` 会导致函数**立即退出**
-    - 空值的 `return` 或无 `return` 的函数返回值为 **`undefined`**
-    - 不要随意换行 / 跨行先加 `()` : JS 默认会在 `return` 之后加上分号 `;`
+    - 空值的 `return` 或 无`return` 的函数返回 **`undefined`**
+    - 不要随意换行 / 跨行前先加 `(` : JS 默认会在 `return` 之后加上分号 `;`
 - 函数 == 注释
     - 函数应该 简短 + 只有一个功能 + 只包含函数名所指定的功能
-    - **自描述** 通过函数名就可以看出函数的行为，而不用通过代码
+    - **自描述** 通过函数名就可以看出函数的行为, 而不用通过代码
 
 ## 函数表达式
 
-- 仅当函数声明不适合对应的任务时，才应使用函数表达式
-- 函数创建发生在赋值表达式的上下文中（如在 `=` 的右侧）
+- 仅当函数声明不适合对应的任务时, 才应使用函数表达式
+- 函数创建发生在赋值表达式的上下文中 (如在 `=` 的右侧) 
 - 函数表达式允许省略函数名 `function() {...}`
 - 函数是一个**表示 "行为" 的值**
-    - `func1()` 指代函数调用后 `return `的结果
+    - `func1()` 指代函数调用后 `return `的**结果**
     - `func1` 指代函数 **本身** , 可用 `=` 复制给另一个值
+    - 对 `func1` 处理 **不会**导致函数被执行
 - **回调**函数 / 回调
     - ``` javascript {.line-numbers}
         function func1(){}
@@ -481,20 +504,20 @@ let result = (condition1) ? value1 :
     - **函数声明**: 在主代码流中声明为单独的语句的函数
     - **函数表达式**: 在一个表达式/另一个语法结构中创建的函数
 - 运行顺序
-    - JS 准备运行脚本时，**首先寻找**全局函数声明，并创建这些函数 (可将其视为“初始化阶段”)
-    - 在处理完所有函数声明后，代码才被执行。所以运行时能够使用这些函数
-    - *函数表达式是在代码**执行到达时被创建**，并且仅从那一刻起可用*
+    - JS 准备运行脚本时, **首先寻找**全局函数声明, 并创建这些函数 (可将其视为“初始化阶段”)
+    - 在处理完所有函数声明后, 代码才被执行。所以运行时能够使用这些函数
+    - *函数表达式是在代码**执行到达时被创建**, 并且仅从那一刻起可用*
 
 - 函数声明功能: **块级作用域**
-    - 严格模式下，当一个函数声明在一个代码块内(如`if`中)时，它在该代码块内的任何位置都是可见的。但在代码**块外不可见**
+    - 严格模式下, 当一个函数声明在一个代码块内(如`if`中)时, 它在该代码块内的任何位置都是可见的。但在代码**块外不可见**
 
 ## 箭头函数基础
 
 ``` javascript {.line-numbers}
-let func = (arg1, arg2, ..., argN) => expression;
+let func = ( [arg1, arg2, ..., argN] ) => expression;
 let sum = (a, b) => {  // 花括号表示开始一个多行函数
   ...
-  return result; // 若使用了 {} ，则需要一个显式 “return”
+  return result; // 若使用了 {} , 则需要一个显式 “return”
 };
 ```
 
@@ -513,18 +536,16 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 ### `Sources` 资源面板
 
-1. `File Navigator` 
+1. `File Navigator` 区域
 
     - 依附于此页面的文件, 包括 Chrome 扩展程序
 
-2. `Code Editor` 
+2. `Code Editor` 区域
 
     - `Breakpoints` 断点 / `Conditional Breakpoints` 条件断点
     - `Continue to here` 右键的 `context menu` (关联菜单) 中
 
-
-
-3. `JavaScript Debugging` 操作
+3. `JavaScript Debugging` 区域
 
     - `Resume script execution` 恢复: 继续执行, 直到结束/下一个断点
     - `Step`: 运行下一条指令 (会忽略异步行为如 `setTimeout`) 
@@ -535,7 +556,7 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 4. `JavaScript Debugging` 查看
 
-    - `Watch` 察看: 显示任意表达式的当前值
+    - `Watch` 监视: 显示任意表达式的当前值
 
     - `Call Stack` 调用栈: 显示嵌套的调用链
 
@@ -547,6 +568,7 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 - 单行中不用 `{...}`
 - indent 水平缩进 / 垂直缩进
 - `;` 每一个语句后面都应该有一个分号
+- **反引号 `** 允许将字符串拆分为多行
 - 避免嵌套
     - 循环中可使用 `(!...) continue;` `if/else` `return` 避免嵌套
 - 函数位置
@@ -555,9 +577,9 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 - 自动检查器
 
 - 注释这些
-    - 整体架构，高层次的观点。
+    - 整体架构, 高层次的观点。
     - 函数的用法。
-    - 重要的解决方案，特别是在不是很明显时。
+    - 重要的解决方案, 特别是在不是很明显时。
 - 避免注释
     - 描述“代码如何工作”和“代码做了什么”
     - 在代码足够简单或有很好的自描述性时还写没必要的注释
@@ -568,12 +590,12 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 - waiting...
 
 
-## Polyfill Transpilers 
+## Polyfill & Transpilers 
 
 
 - Transpilers 转译器
 
-    - 使用旧的语法结构重写现代**语法或运算符**
+    - 使用旧的语法结构 **重写** 现代语法或运算符
 
 - Polyfills 垫片
 
@@ -586,12 +608,13 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 > [JS 有八种数据类型](##数据类型)
 
-- 7 种原始类型: 值只包含一种东西 (字符串, 数字或其他)
+- 7 种原始类型: 值只包含一种 (字符串, 数字 ...)
 
 - 1 种引用类型: 用来存储键值对和更复杂的实体
 
 -  `literal` 字面量
-    - `literal` 字面量是用于表达一个固定值的表示法 (或用来为变量赋值时的常数量)，又叫常量
+    - Literals represent values in JavaScript. These are **fixed values**—not variables—that you literally provide in your script.
+    - `literal` 字面量是用于表达一个固定值的表示法 (或用来为变量赋值时的常数量), 又叫常量
     - 字面量分为 字符串/数组/对象/函数 字面量( `string/array/object/function` `literal` )等
         - eg. `let str1 = "a str";` `"a str"` 是数字字面量, `str1` 是变量
     - 判断自变量    
@@ -609,16 +632,16 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
             }; //二 “object literal 对象字面量” 的语法
         ```
     - 一个属性 `property` 就是一个键值对: ( 属性的`key/name/identifier(键/名字/标识符)` `:` 属性的 `value(值)` )
-    - 其中 键 `key` 只能是字符串 / `Symbol` 类型, 值 `value` 可以是任何值
+    - 其中 键 `key` **只能**是 ***`String` / `Symbol`*** 类型 , 值 `value` 可以是任何值
         - 若 `key` 中有空格则需加 `""`, 如 `"a key": ture,` 
     - 列表中的最后一个属性应以**逗号结尾**, 称尾随或悬挂逗号 (trailing/hanging comma)
 
 2. 访问属性值
-    - 使用 `delete`操作符 **删除** 属性值
-    - 使用点符号 `ObjectName.keyName` 访问属性值 `value`
+    - 使用 `.`点符号**访问**属性值(value)  `ObjectName.keyName` 
+        - `.`要求`key`是有效的变量标识符: 不含空格&不以数字开头&不含特殊字符(可用`$_`)
+    - 使用 `delete`操作符 **删除** 属性值 `delete Object1.key2`
     - 使用方括号 `ObjectName[keyName]` 访问属性值 `value`
-        - 若 `key` 中有空格, 可使用 `ObjectName["a key"]` 访问值
-        - `KeyName` 可以是 **任意表达式** , 比如变量
+        - `[]`中的 `KeyName` 可以是 **任意**表达式 , 比如变量
 
 3. 计算属性
     - 创建对象可在对象字面量中使用方括号 `[ObjectName] : value`
@@ -649,79 +672,82 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
     - JS 的 Object 能够被访问**任何**属性, 若不存在则返回 `undefined`
     - `"ObjectKey1"` `in` `ObjectName` 检查属性是否*存在*
         - `in` 左边的 `属性名` 省略引号则表示一个变量
-    - 若属性值为`undefined`, `in` 判断为 `ture`, 直接访问显示`undefined`
+    - 少用: 若属性值为`undefined`, `in` 判断为 `ture`, 直接访问显示`undefined`
 
 7. `"for…in"` 循环
     - 所有的 `"for"` 结构体都允许在循环中**定义变量**
-        - 如 `let key in user` `let prop in obj`
+        - 如 `let key in user`, `let prop in obj`
     - ``` javascript {.line-numbers}
         for ( [let] key in obj) {
-        [alert( key );]// 对此对象属性中的每个键执行的代码
+        alert( key );
+        alert( user[key] );
         } 
         ```
 
 8. 遍历时的顺序
-    - **整数属性** 会被排序, 其他属性则按照**创建的顺序**显示
-        - `整数属性`指可在不做任何更改下与 *整数* 相互转换的*字符串*
-        - eg.`"+49" -> 49 -> "49" != "+49"`, `"1.2" -> 1 ->"1" != "1.2"`
+    - 规范中 ownPropertyKeys 方法定义了一个对象的遍历顺序
+        1. 先将 整数属性 按 升序 排列。
+        2. 再将 字符串属性 按 定义顺序 排列。
+        3. 最后将 Symbol 符号属性 按 定义顺序 排列。
+    - **整数属性** 指可在不做任何更改下与 *整数* 相互转换的*字符串*
+        - `+0 <= parseFloat(key) < 2^32 - 1` (最大安全整数)
+        - eg. `"+49" -> 49 -> "49" != "+49"`
+            - `"1.2" -> 1  -> "1" != "1.2"`
 
 
 ## Object 引用和复制
 
-- 赋值对象的变量存储该对象**在内存中的地址**, 而非对象本身
+- 赋值了对象的变量存储该对象**在内存中的地址**, 而非对象本身
     - 字符串, 布尔值等原始类型始终以"整体值"的形式被复制
     - 相比对象的根本区别之一是其"通过引用"被存储和复制的
 - 使用 `const` 声明的对象**可被修改**
+    - 引用对象的地址不可改(将对象作为整体), 对象的属性可以改
 <br />
 
 - 比较对象
     - 仅当两个对象为同一对象时两者才相等
-    - 两个独立的对象不相等, 即使都为空
+    - 两个独立的对象不相等, 即使都为`{}`
     -   ``` javascript {.line-numbers}
         let a = {};
         let b = a;
         let c = {};
-
         alert ( a === b ); // ture
         alert ( a !== c ); // ture
         ```
-- 克隆与合并, `Object.assign`
+- 克隆与合并, **浅拷贝** `Object.assign`
     - ``` javascript {.line-numbers}
-        for (let key in user) {
-            clone[key] = user[key];
-        }
-
-        Object.assign(dest, [src1, src2, src3...])
+        for(let key in user) clone[key] = user[key];
+        
+        Object.assign(dest, [src1, src2, src3...]) //返回dest
         ```
     - `Object.assign(目标对象, [源对象1, 源对象2...])`
+        - 结果返回目标对象
         - 目标对象的相同属性会被源对象覆盖
         - 可用来合并多个对象
 
-- 深层克隆 (属性引用其他对象)
+- 深层克隆 **深拷贝** 
+    - 若对象的属性引用了其他对象, 浅拷贝不完全
     - 递归实现, 如 `lodash` 库的 `_.cloneDeep(obj)`
 
 ## 垃圾回收
 
+- 垃圾回收是自动完成的, 不能强制/阻止执行
 - Reachability 可达性
-
-1. 固有可达值(roots)明显不能被释放
+0. 当对象是可达状态时一定存在于内存中
+1. 固有可达值(roots)不能被释放
     - 如: 当前执行的和嵌套调用链上的函数及其局部变量和参数, 全局变量, 等
 2. 若值可通过引用/引用链从根访问任何其他值, 认为该值是可达的
     - 对外引用不重要, 只有**传入引用**才可以使对象可达(指向该对象)
     - 无**外部引用**的孤立对象(群)也视为不可达
 
-- garbage collector 垃圾回收器 
-    - JS引擎后台运行
-    - 监控所有对象状态并删除已经不可达的
 
-- 内部算法
-    - 垃圾回收的基本算法被称为 "mark-and-sweep"
+## Object 方法, `"this"`
 
-## Object 方法，`"this"`
+> 参考[You-Dont-Know-JS/this & object prototypes](https://github.com/getify/You-Dont-Know-JS/tree/1ed-zh-CN/this%20%26%20object%20prototypes)
 
-- 作为对象属性的函数被称为 *method* (方法)
+- 作为对象属性的 函数 被称为 ***`method`*** (方法)
     - 方法简写 (首选较短的语法)
-    -  ``` javascript {.line-numbers}
+       ``` javascript {.line-numbers}
         user = {
         sayHi: function() { alert("Hello"); }
         };
@@ -743,26 +769,28 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
     <br />
 
 - 没有对象的情况下调用含有 this 的函数
-    - `"use strict"` , `this == undefined` 
+    - ***`"use strict"`, `this == undefined`***
     - 非严格模式的情况下, `this` 将会是 全局对象
     <br />
 
-- 箭头函数没有自己的 `"this"`
+- 箭头函数**没有**自己的 `"this"`
     - 若箭头函数中引用 `this`, 则其值取决于外部 "正常的" 函数
 
 ## 构造器和操作符 "new"
 
 1. 构造函数
     - 构造函数在技术上是常规函数
-    1. 命名以大写字母开头
-    2. 只能由 `"new"` 操作符来执行
+    1. 约定: 命名以大写字母开头
+    2. **只能**由 `"new"` 操作符来执行
     <br />
 
-2. 当函数用 new 操作符执行时
-    1. **`this = {};`**（隐式创建）
-    2. 函数体执行, 通常修改 `this`, 添加新的属性等
-    3. **`return this;`**（隐式返回）
-    - 不建议: 若无参数, 可以省略 `new` 后的 `()`
+2. 当函数用 `new` 操作符执行时
+    1. ***`this = {};`*** (隐式创建) 
+    2. 函数体执行: 通常修改 `this`, 添加新的属性等
+    3. **`return this;`** (隐式返回) 
+    - 立即&单次调用`new function()`
+        - 创建单个复杂对象
+        `let obj = new function() { ... }`
     <br />
 
 3. (少用) 构造器模式测试：`new.target`
@@ -780,18 +808,13 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 ## 可选链 `?.`
 
-> `?.` 链使我们能够安全地访问嵌套属性
+> `?.` 能够安全地访问嵌套属性
 
 - `?.` 前的变量必须已声明/定义, 否则报错
 - 若 `?.` 前的值为 `undefined/null` (不存在), 立即停止并返回`undefined` ("短路效应")
-- `?.` 使其前的值成为可选值, 但不对其后的起作用
-- 不要过度使用可选链
-- 其它变体：`?.()`, `?.[]`, `delete user?.name;`
-- 可使用 `?.` 来安全地读取或删除，但 **不能写入**
-
-
-
-
+- `?.` 使其**前**的值成为可选值
+- 其它变体：`?.()`, `?.[]`, `delete user?.name; //user存在则删除user.name`
+- 可使用 `?.` 来安全地读取或删除, 但 **不能写入** (不能用在赋值语句的左侧)
 
 
 ## Symbol 类型
@@ -801,10 +824,10 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
  
 - `"Symbol"` 值表示唯一的标识符
     ``` javascript {.line-numbers}
-    let id = Symbol(["描述 / Symbol名"]);// id 是 symbol 的一个实例化对象, 是描述为 "描述 / Symbol名" 的 Symbol
+    let id = Symbol(["描述/Symbol名"]);// id 是 symbol 的一个实例化对象, 是描述为 "描述 / Symbol名" 的 Symbol
     ```
 - `Symbol` 保证是 **唯一** 的
-    - 即使 Symbol 的描述完全相同, 它们的值也是不同
+    - 描述完全相同的Symbol的值也是不同
     - 描述只是一个标签, 无任何影响
 
 - `Symbol` 不会被自动转换为字符串
@@ -817,19 +840,268 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 
 
-
-
-
-
-
-
-
-
 ## Object — 原始值转换
 
+> 所有的对象在布尔上下文（context中均为`true`
+
+- JavaScript 运算符处理对象的方式不允许自定义
+- 数学运算下对象会被自动转换为原始值进行运算并得到一个原始值
 
 
 
+# 数据类型
+
+- 原始类型 和 对象 之间的关键区别
+    - A primitive
+        - 7 种原始类型中的一种
+        - `string, number, bigint, boolean, symbol, null, undefined`
+    - An object
+        - 能够存储多个值(包括对象, 函数)作为属性
+        - 还有其他种类的对象, 如函数是对象
+
+
+
+## 原始类型的方法
+
+> 作为对象属性的 *函数* 被称为 ***`method`*** (方法)
+
+- `null/undefined` 没有任何方法/属性 (访问报错)
+- JS allows access to _methods and properties_ of `strings, numbers, booleans, symbols`
+- 为此创建 "object wrapper" 对象包装器, 使用后即被销毁
+    - 对象包装器创建包含原始数据字面量的暂时对象
+    - 对象包装器使用后即被销毁
+    - 对象包装器对每种原始类型都不同, 提供了不同的方法, 包括 `String, Number, Boolean, Symbol, BigInt`
+
+
+## 数字类型
+
+- 常规数字以 64-bit 的格式 IEEE-754 储存, 也称 _双精度浮点数_
+- 常规整数不能安全地超过 (2^53-1) 或小于 -(2^53-1)
+
+1. 表示数字
+    - JS会忽略数字 *之间* 的 `_`(下划线)
+    - 科学计数法
+        ``` javascript {line-numbers}
+        1.23e-6  === 1.23/1_000_000
+        1.234e-3 === 1.234     //小数点移动3次
+        0xff === 255           //只支持2,8,16进制
+        // 0b1111 === 0o17 === 15 **不能连等!!!**
+        ```
+2. `.toString` 方法基础
+    - 方法 `num.toString(base)` 返回在给定 _base进制_ 数字系统中 num 的 _字符串_ 表示
+    ``` javascript {line-numbers}
+    123456..toString(36) === '2n9c' //JS默认第一个点 . 后为小数部分
+    (123456).toString(36) === '2n9c'//↑↑否则报错↑↑
+    ```
+3. rounding 舍入
+
+    -  |    &nbsp;        | &nbsp;  |       `2.1 2.7 -1.2 -1.6`
+        --- | --- | ---
+        1. `Math.floor(num)` | 向下、小 | &nbsp;` 2 / 2 / -2 / -2 ` |
+        2. `Math.ceil(num)`  | 向上/大  | &nbsp;` 3 / 3 / -1 / -1 ` |
+        3. `Math.round(num)` | 四舍五入 | &nbsp;` 2 / 3 / -1 / -2 ` |
+        4. `Math.trunc(num)` | 取整数   | &nbsp;` 2 / 2 / -1 / -1 ` |
+    - 5. **`.toFixed(n)`** 将数字四舍五入到 n位 小数并以 string 返回
+        - `12.34.toFixed(5) === '12.34000'`
+
+4. 计算的不精确
+
+    - 溢出 64位 : `1e`±`309 === `±`Infinity`
+    - 二进制数字系统无法 精确 存储 0.1 (1/10) `0.1.toString(2) === '0.0001100110011001100110011001100110011001100110011001101'`
+    1. 用 `.toFixed(n)` 对结果舍入
+    2. 先 * 1000 再 除回 (仍有误差)
+
+5. 检测 `isFinite()`  `isNaN()`
+
+    - NaN 不等于**任何**事物
+    - isNaN(value) 将参数转换为数字测试是否为 NaN :
+        `true === isNaN(NaN) === isNaN("str")`
+    - isFinite(value) 将参数转换为数字
+        若不是 NaN/Infinity/-Infinity(包括string) 则返回 true
+        `false == isFinite("str") == isFinite(Infinity) == isFinite(NaN)`
+        可用 isFinite(value) 验证字符串
+    - 在**所有**数字函数中 空字符串或仅有空格的字符串 均被视为 **`0`**
+
+5. 补: `Object.is()` 完全相等检查内建方法
+    - 适用于 NaN: `Object.is(NaN，NaN) === true`
+    -  0 和 -0 不同: `Object.is(0，-0) === false`
+    - 其他情况 `Object.is(a，b)` 与 `a === b` 相同
+
+6. `pressInt()`  `pressFloat()`
+    - 从字符串中"读取"数字直到无法读取, 发生 error 则返回收集到的数字
+    - `parseInt` 返回一个整数, `parseFloat` 返回一个浮点数
+    - 若无数字可读(参数开头非数字)则返回 `NaN`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<hr>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<hr>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+
+
+
+
+
+
+
+## 字符串
+
+
+
+
+
+## 数组
+
+
+
+
+
+## 数组方法
+
+
+
+
+
+## Iterable object（可迭代对象）
+
+
+
+
+
+## Map and Set（映射和集合）
+
+
+
+
+
+## WeakMap and WeakSet（弱映射和弱集合）
+
+
+
+
+
+## Object.keys, values, entries
+
+
+
+
+
+## 解构赋值
+
+
+
+
+
+## 日期和时间
+
+
+
+
+
+## JSON 方法, toJSON
 
 
 
