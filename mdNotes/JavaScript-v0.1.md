@@ -360,7 +360,7 @@
         ```
 - `undefined` 不应该被与其他值进行比较
     - 当 `underfined` `> < >= <=` 时转为 `NaN`
-    - `NaN` 是特殊数值型值, 与任何值 (`包括NaN`) 比较 **都会返回 `false`**
+- `NaN` 是特殊数值型值, 与任何值 (`包括NaN`) 比较 **都会返回 `false`**
 
 ## 条件分支：if 和 '?'
 
@@ -906,6 +906,8 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 4. 计算的不精确
 
+    > 使用小数时会损失精度
+    > 处理小数时避免相等性检查
     - 溢出 64位 : `1e`±`309 === `±`Infinity`
     - 二进制数字系统无法 精确 存储 0.1 (1/10) `0.1.toString(2) === '0.0001100110011001100110011001100110011001100110011001101'`
     1. 用 `.toFixed(n)` 对结果舍入
@@ -933,79 +935,440 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
     - 若无数字可读(参数开头非数字)则返回 `NaN`
 
 
+## 字符串
+
+### Quotes 引号
+
+1. 字符串可以包含在 '单引号' , "双引号" , &#96;反引号&#96; 中
+2. &#96;反引号&#96;
+    - 反引号允许通过 `${…}` 将 _任何表达式_ 嵌入到字符串中
+    - 反引号允许字符串**跨行**
+    - 使用换行符 (newline character) `\n` 与 `反引号和普通换行` 创建的字符串相等(==)
+3. 特殊字符/转义字符
+    - 特殊字符都以反斜杠字符 `\` (backslash) 开始
+    - `\'` , `\"` , `\n` , `\t` , 
+
+### 字符串属性、方法
+
+1. `str.length` 表示字符串长度
+    ``` javascript {line-numbers}
+    `\n`.length === 1; //ture, \n 是一个单独的特殊字符
+    ```
+2. 访问/遍历字符
+    - `str[0]` 如果未找到字符则返回 `undefined`
+    - `str.charAt(1)` 未找到则返回 `''` (空字符串)
+    - 遍历字符串 `for..of`
+    ``` javascript {.line-numbers}
+    for (let char of "Hello") {
+    alert(char); // H,e,l,l,o(char 变为 "H", 然后是 "e"...)
+    }
+    ```
+3. 字符串创建后不可修改只可替换
+    `TypeError: Cannot assign to read only property '0' of string 'Hi'`
+
+4. 改变大小写
+    - `str1.toLowerCase()`
+    - `str2[0].toUpperCase() `
+
+5. 查找子字符串
+    
+    1. `str.indexOf(substr, pos)` 
+        - 从给定位置 `pos` 开始在 `str` 中查找 `substr`
+        - 成功则返回匹配的位置
+        - 若未找到则返回 `-1`
+            - 在 `if` 中使用应检查 `-1`
+        - 旧: bitwise NOT `~` 运算符 简写indexOf 检查
+            - 对于 32-bit 整数，`~n === -(n+1)`
+
+    2. `str.includes(substr, pos)` 
+        - 根据 `str` 中是否包含 `substr` 来返回 `true/false`
+    3. `str.startsWith()` 返回 `true/false`
+    4. `str.endsWith()` 返回 `true/false`
+
+6. 获取子字符串
+
+    1. **`str.slice(start [, end])`**
+        - 返回字符串从 `start` 到(但**不包括**)`end` 的部分
+        - 若无第二个参数则运行到字符串末尾
+        - `start/end` 可`<0`(为负值)
+            - 起始位置从字符串结尾算起
+            - 按原顺序返回
+        - `start` _不能_ 大于 `end`, 否则返回 `''` (空字符串)
+
+
+    2. `str.substring(start [, end])`
+        - 与 `str.slice` 类似
+        - `start/end` _不能_ `<0` (负值被视为 `0`)
+        - `start` 可大于 `end`
+            - `str.substring(2, 6) === str.substring(6, 2)`
+
+    3. `str.substr(start [, length])
+        - 返回字符串从 `start` 开始的给定 `length` 的部分
+        - `start` 可为负数
+            - 起始位置从字符串结尾算起
+            - 按原顺序返回
+
+7. 比较字符串
+
+    0. `str.codePointAt(pos)` 与 `String.fromCodePoint(code)`
+        1. 返回在 `pos` 位置的ASCII码
+        2. 通过十进制 ASCII码 `code` 创建字符
+    ``` text {line-numbers}
+        字符:    0   1...8  9 ... A   B...Y  Z ... a   b...y  z
+        ASCII码: 48  ....   57 .. 65  ....   90 .. 97  ....   122
+    ```
+    1. 调用 `str.localeCompare(str2)` 会根据语言规则返回一个整数
+        - 若 `str` 在前则为负, 若 `str2` 在前则为正, 相同则为 `0` 
+        - 比较按照国际化标准 ECMA-402 
+
+8. 其他方法
+
+    1. `str.trim()` 删除字符串前后的空格 (trims)
+    2. `str.repeat(n)` 重复字符串 `n` 次
+
+
+## 数组 Array
+
+> 数组可以存储**任何**类型的元素(包括数组)
+
+1. 声明
+
+    - `let arr = [];` 
+        - 可以在方括号中添加初始元素
+        - 以逗号分隔元素、结尾 (所有行一致)
+    - 少用: let arr = new Array(); (使用数字调用会创建指定长度的全`undefined`数组)
 
+5. 数组内部
 
+    - 数组 Array 是一种特殊的 **对象 Object**
+        - `Arr[n]` 与 `obj[key]` 相同
+        - 数组 Array 通过**引用**来复制
+    - 判断数组
+        - `Array.isArray(value)` 判断 `value` 是否为数组
+        - `typeof {} === 'object'`
+    - 不按照 '有序集合' 使用数组会取消针对数组的优化
+        - 如添加一个非数字的属性, 存在空缺/不连续值, 以倒序填充数组
+
+2. `length` 属性的值是数组中元素的总个数
+7. 关于 `length`
+
+    - 数组的 `length` 属性值为`最大的数字索引值+1`
+    - 手动增加 `length` 增加 `undefined` 项
+    - 手动减小 `length` 截断数组
+    - 清空数组 `arr.length = 0;`
+
+6. 数组循环
+
+    1. `for`循环: arr[0] ~ arr[arr.length-1]
+    2. `for..of` 只能获取元素值, 无索引
+    3. 不应使用 for..in (无对应优化速度慢10-100倍!)
 
+10. 不要使用 `==` 比较数组
 
+    - `==` 不会对数组进行特殊处理(处理参考Object)
 
+8. 多维数组 Multidimensional arrays 储存矩阵 matrix
+
+
+## 数组方法
+
+### 添加/移除数组元素
+
+4. `pop`/`push`, `shift`/`unshift` 方法
+    - 队列 queue 是最常见的使用数组的方法之一
+    - JS 中的 Array 属于 双端队列 deque, 既可用作队列也可用作栈(允许从首/末端来添加/删除元素)
+        1. 队列queue: FIFO (First-In-First-Out)
+            - push shift
+        2. 栈stack: LIFO (Last-In-First-Out)
+            - push pop
+    - 作用于数组末端的方法 (运行快速)
+        1. `arr.pop()` 取出并返回数组的最后一个元素
+        2. `arr.push()` 在数组末端添加(一个或*多个*)元素
+    - 作用于数组首端的方法 (运行缓慢)
+        1. `arr.shift()` 取出并返回数组的第一个元素
+        2. `arr.unshift()` 在数组开头添加(一个或*多个*)元素
+
+0. **`arr.splice(start[, deleteCount, elem1, ..., elemN])`**
+
+    - 从索引 `start` 开始修改 `arr`
+        1. 删除 `deleteCount` 个元素
+        2. 在当前位置插入 `elem1, ..., elemN`
+        3. 返回**被删除**的元素所组成的数组。
+    - `deleteCount = 0` 时插入元素
+    - 支持 *负向* 索引
+
+1. `arr.slice([start], [end])`
+
+    - 返回新**数组**, 由索引 `start` 到但*不包括* `end` 的数组项构成
+    - 不带参数 `arr.slice()` 创建 `arr` 的*副本*
+    - 支持 *负向* 索引
+
+2. `arr.concat(arg1, arg2...argN)`
+
+    - 返回一个包含来自于 `arr` 然后是 `arg1`, `arg2` 的元素的新数组
+    - 若 `argN` 非数组则复制 `argN`**其自身**
+        - 例外: 若类数组对象具有 `Symbol.isConcatSpreadable` 属性则当作数组来处理
+
+### 遍历运行 forEach
+``` javascript {.line-numbers}
+arr.forEach(function(item, index, array) {
+    // ... do something with item
+    //箭头函数简化 (参数) => { 函数体 }
+});
+```
+
+- 为数组的每个元素都运行一个函数
+- 该函数的结果(如有返回)会被抛弃和忽略
+
+
+### 在数组中搜索
+
+- 从索引 `from` 开始搜索 `item`
+    - `arr.indexOf (item, from)` 返回 `索引` | `-1`
+    - `arr.includes(item, from)` 返回 `true` | `false`
+    - `arr.lastIndexOf(item, from)` 除顺序从右到左外与 `arr.indexOf()` 相同 
+    注意
+    1. 一般只传入参数 `item` 从头开始搜索
+    1. `indexOf` `includes` 都使用严格相等 `===` 进行比较
+    2. `includes` 可以正确处理 `NaN` (`indexOf`查找不到)
+
+- 寻找首个特定对象 (依次对数组中的每个元素调用函数)
+
+    ``` javascript {.line-numbers}
+    let result = arr.find(function(item, index, array) {
+        // 如果返回 true，则返回 item 并停止迭代
+        // 对于假值（falsy）的情况，则返回 undefined
+    });
+    ```
+    - `arr.find()` 若函数返回 `true` 则返回 `item`, 否则返回 `undefined`
+    - `arr.findIndex()` 返回找到元素的`索引值`, 否则返回 `-1`
+    - `arr.findLastIndex()` 除顺序从右到左外与 `arr.find()` 相同 
 
+- 寻找所有匹配对象(过滤数组)
 
+    ``` javascript {.line-numbers}
+    let results = arr.filter(function(item, index, array) {
+        // 返回包含所有匹配元素的新数组
+        // 若无匹配则返回空数组''
+    });
+    ```
 
+3. 新: `arr.at(i)` 获取最后一个元素(`i`取`-1`)
+    - 若 i >= 0 则与 `arr[i]` 等同
+    - 若 i 为负 则从数组的尾部向前数
+        - `arr[i]` 中 `i` 不能为负, 否则返回 `undefined`
 
 
+### 转换/排序 数组
 
+- `map`
 
+    - 最有效最常用
+    - 对数组的每个元素都调用函数并返回 结果数组
+    ``` javascript {.line-numbers}
+    let result = arr.map(function(item, index, array) {
+     // 返回新值而不是当前元素
+     // eg. arr.map(item => item.length);
+    })
+    ```
 
+- `reduce` / `reduceRight`
 
+    ``` javascript {.line-numbers}
+    let value = arr.reduce(function(accumulator, item, index, array) {
+        //eg. arr.reduce((sum, current) => sum + current, 0);
+    }, [initial]);
+    ```
+    1. 对数组的每个元素都调用函数
+    2. 其结果作为 `accumulator` 传递给下个函数
+    3. 返回最后的结果
+    - 第一次调用 `accumulator` 等于 `initial`
+        - 若未提供 `initial` 则将首个元素作为初始值并从第二个元素开始迭代
+        - 若未提供 `initial` 且数组为空则*报错*
+    - `arr.reduceRight()` 除顺序从右到左外与 `arr.reduce()` 相同 
 
+- `sort(fn)`
+    - 遍历 并对数组进行 **原位 in-place** 排序 (通常忽略返回的原数组)
+    - 若无参数 `fn` 则元素默认被按 _字符串_ 进行排序
+    - 提供 排序函数 `fn()` 用于比较
+        - 需要返回 正数 表示 大于 , 负数 表示 小于 
+        - `arr.sort( (a, b) => a - b );`
+    - 使用 `localeCompare` 比较特殊字符 *for strings*
 
+- `arr.reverse();` 颠倒并返回颠倒后的数组 `arr`
 
+- `split` `join`
 
+    - `str.split(delim)` 
+        - 通过分隔符 `delim` 将字符串分割成一个数组
+        - 提供空字符串 `''` 将`str`拆分为 单字符 数组
+        - 不常用: 提供第二个数字参数限制数组长度(忽略剩余字符)
+    - `arr.join(glue)`
+        - 使用 `glue` 将数组粘合成字符串
+        - 传入 `undefined` 时效果与 `String(arr)` 相同 (以分号`;`分隔)
 
+- 数组 `toString` 方法
 
+    1. `String(arr)` 返回以逗号隔开的元素列表
+    0. 数组没有 Symbol.toPrimitive 也没有 valueOf , 只能执行 toString 进行转换
 
+### 方法补充: `thisArg`
 
+- 几乎所有调用函数的数组方法都接受一个 可选的附加参数 `thisArg`
+    - 如 `find`, `filter`, `map`, 除了 *sort* 是一个特例
 
+- `thisArg` 参数的值在 `func` 中变为 `this`
 
+    ``` javascript {.line-numbers}
+    arr.find(func, thisArg);
+    arr.filter(func, thisArg);
+    arr.map(func, thisArg);
+    // ...
+    // thisArg 是可选的最后一个参数
+    ```
 
+- 常用: 可使用 *箭头函数* 替换便于理解
 
 
+## Iterable object 可迭代对象
 
+1. 迭代器 iterator
 
+    - 迭代器的原理类似指针, 可以移动并获取其指向的元素
 
+    0. JS规定迭代器必须实现 `next()` 接口,其返回当前元素 并 将迭代器指向下一元素
+    1. 返回的格式必须为 `{done: Boolean, value: any}`
+    2. 当 `done=true` 时循环结束(忽略 `value`), 否则 `value` 是下一个值
+    3. `done:false` | `value:undifined` 可省略(只返回 `value: any` | `done: true`)
 
+2. 可迭代对象 iterable object
 
+    - 一个实现了迭代接口的对象即为可迭代对象
 
+    1. JS的默认迭代接口/**方法**是 **`[Symbol.iterator]`**
+    2. `[Symbol.iterator]` 是一个特殊的 `Symbol` 属性, 用于 _检测&制造_ 可迭代对象
+    3. `[Symbol.iterator]` 是一个函数, 这个方法返回一个迭代器(包含 `next()` 的对象)
+    4. 注意: 可迭代对象自身**没有** `next()` 方法 (调用 `iter[Symbol.iterator]()` 创建的 迭代器对象 包含 `next()` 方法)
 
+3. `for..of`
 
+    1. `for..of` 循环启动时调用 迭代方法 `[Symbol.iterator]`
+    2. `[Symbol.iterator]` 返回一个 迭代器
+    3. 至此 `for..of` 仅适用于这个被返回的迭代器
+    4. 当`for..of` 循环需获取下一值时调用迭代器的 `next()` 方法
+        5. 若 `next()` 方法返回 `done: ture` 则循环结束(忽略 `value`)
+        6. 否则(代表 `done: false`) `value` 为下一个值 
 
 
 
+## Map and Set 映射和集合
 
+> `Map` 对象保存键值对, 任何值(**包括对象**)都可以作为 `key / value`
+- 普通的 `Object` 会将 key 转成字符串
+- `Map` 会保留 `key` 的类型(包括 `NaN`)
+    - `Map` 比较键是否相等类似 `===`(区别是 `NaN` 视作与 `NaN` 相等)
 
+### Map 方法和属性
 
+0. 禁止通过 map[key] 使用 Map (会被视为 plain object 并有限制)
 
+1. `new Map()` 创建 map
 
+    - 可传入带有键值对的数组(或其它可迭代对象)进行初始化
+        ``` javascript {.line-numbers}
+        // 键值对 [key, value] 数组
+        let map = new Map([
+        [ '1', 'str1'],
+        [   1, 'num1'],
+        [true, 'boo1']
+        ]);
+        ```
 
+2. `map.set(key, value)` 根据 key 存储 value
+    - key 值唯一, 重设同一 key 会覆盖原 value
+    - 链式调用: 每次 `map.set` 调用都会返回 map 本身
 
+3. `map.get(key)` 根据 key 返回 value, 不存在则返回 undefined
 
+4. `map.has(key)` 根据 key 存在与否 返回 true/false 
 
+5. `map.delete(key)`根据 key 删除对应的键值对
 
+6. `map.clear()` 清空 map 内的键值对
 
+7. `map.size` —— 返回当前元素个数
 
+### Map 迭代
 
+0. 迭代的顺序与插入值的顺序相同 (保留顺序)
+1. `map.keys()` 遍历并返回一个包含所有 key 的可迭代对象
+2. `map.values()` 遍历并返回一个包含所有 value 的可迭代对象
+3. `map.entries()` 遍历并返回一个包含所有实体 [key, value] 的可迭代对象
+    - `for..of` 在默认情况下使用的方法
 
+4. `forEach` 遍历调用
+    ``` javascript {.line-numbers}
+    // 对每个键值对 (key, value) 运行 forEach 函数
+    recipeMap.forEach( (value, key, map) => {
+    alert(`${key}: ${value}`); // cucumber: 500 etc
+    });
+    ```
 
+### Map 与 plain object 
 
+1. `Object.entries(plain_obj)` 返回对象的 键/值对(`[key, value]`) 数组 
+    - 将其作为参数传入 `new Map()` 即从 `plain_obj` 创建 `Map`
+    - 调用 `map.entries()` 将返回一个可迭代的 键/值对
 
+2. `Object.fromEntries()` 根据给定的具有 `[key, value]` 键值对的数组创建对象
+    - 根据 `map` 创建一个 `plain_obj`: `Object.fromEntries(map.entries())` `==` `Object.fromEntries(map)`
+        - `Object.fromEntries` 期望参数为一个可迭代对象, 不一定是数组
+        - `map` 的标准迭代会返回跟 `map.entries()` 一样的键/值对
 
+### Set
 
+> `Set` 是值的集合(没有键), 其每一个值只能出现一次
 
+### Set 方法
 
+1. `new Set(iterable)` 创建 `set`
+    - 若提供了一个 iterable 对象(通常是数组) 则从数组里面复制值到 `set` 
 
+2. `set.add(value)` 向 `set` 添加值 并 返回 `set` 自身
+    - 使用**同一个** `value` 调用 set.add(value) 无作用
+    - `Set` 内部对唯一性检查进行了更好的优化(优于 arr.find 的遍历)
 
+3. `set.delete(value)` 删除值 且根据方法调用的时候是否存在 `value` 返回 `true`|`false`
 
+4. `set.has(value)` 根据 `value` 是否在 `set` 中返回 `true`|`false`
 
+5. `set.clear()` 清空 `set`
 
+6. `set.size` 返回元素个数
 
+### Set 迭代
 
+- 可以使用 `for..of` 或 `forEach` 来遍历 `Set`
 
+``` javascript {.line-numbers}
+let set = new Set(["oranges", "apples", "bananas"]);
 
+for (let value of set) alert(value);
 
+// 与 forEach 相同：
+set.forEach((value, valueAgain, set) => { // 三个参数: value,同一个value,目标对象
+  alert(value);
+});
+```
+- `forEach` 的回调函数有三个参数，是为了与 `Map` 兼容
 
+- 用于迭代 `Map` 的方法同样适用于 `Set` 
 
+1. `set.keys()` —— 遍历并返回一个包含所有值的可迭代对象，
 
+2. `set.values()` —— 与 `set.keys()` 作用相同，这是为了兼容 `Map`
 
+3. `set.entries()` —— 遍历并返回一个包含所有的实体 `[value, value]` 的可迭代对象，它的存在也是为了兼容 Map。
 
 
 
@@ -1021,18 +1384,6 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 
 
-
-
-
-
-
-
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<hr>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <hr>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

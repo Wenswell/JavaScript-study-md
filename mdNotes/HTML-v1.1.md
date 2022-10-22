@@ -104,7 +104,7 @@
 Attribute|Value|description
 --|--|--
 `class`|*classname*|规定元素的类名(classname)
-`id`|*id_value*|规定元素的唯一 id (区分大小写)
+`id   `|*id_value*|规定元素的唯一 id (区分大小写)
 `style`|*style_definition*|规定元素的行内样式(inline style)
 `title`|*text*|规定元素的额外信息(可在工具提示中显示)
 
@@ -242,8 +242,8 @@ This is a paragraph
 
 3. 添加作者和描述 (搜索引擎搜索结果显示)
     ``` html {.line-numbers}
-    <meta name="author" content="Author Name">`
-    <meta name="description" content="Description Content">`
+    <meta name="author" content="Author Name">
+    <meta name="description" content="Description Content">
     ```
 
 4. 许多` <meta>` 特性已经不再使用。 例如, keyword `<meta>` 元素
@@ -266,7 +266,7 @@ This is a paragraph
 
 ### `<link>` : 定义外部资源
 
-- `<link />`最常用于连接样式表
+- `<link />`最常用于链接样式表
     ``` html {.line-numbers}
     <head>
         <link rel="stylesheet" type="text/css" href="mystyle.css" />
@@ -525,6 +525,15 @@ This is a paragraph
 ### 表格 table
 
 > 表格table, 单元格cell, 行row, 列column
+<table border="1">
+    <caption>Table Caption</caption>
+    <tr>
+        <td>row 1, cell 1</td> <td>row 1, cell 2</td>
+    </tr>
+    <tr>
+        <td>row 2, cell 1</td> <td>row 2, cell 2</td>
+    </tr>
+</table>
 ``` html {.line-numbers}
 <table border="1">
     <caption>Table Caption</caption>
@@ -536,15 +545,6 @@ This is a paragraph
     </tr>
 </table>
 ```
-<table border="1">
-    <caption>Table Caption</caption>
-    <tr>
-        <td>row 1, cell 1</td> <td>row 1, cell 2</td>
-    </tr>
-    <tr>
-        <td>row 2, cell 1</td> <td>row 2, cell 2</td>
-    </tr>
-</table>
 1. 表格标签
 
     1. `<table>` 标签 定义表格
@@ -559,8 +559,7 @@ This is a paragraph
     5. `<caption>` 定义表格的标题
         - **无关**代码位置, 都居中显示在整个表格上方
         - The Table Caption element
-
-    - 注意点: 若单元格为空, 部分浏览器无法显示其边框, 可用占位符 `&nbsp;` 填充 (默认忽略单元格首位空字符)
+- 注意点: 若单元格为空, 部分浏览器无法显示其边框, 可用占位符 `&nbsp;` 填充 (默认忽略单元格首位空字符)
 <br />
 
 2. 表格属性 for `<td>` / `<th>`
@@ -584,7 +583,7 @@ This is a paragraph
         - 添加属性 `align="way"`
         - `way` 可为: left / center / right
 
-<br />
+
 3. 表格属性 for `<table>`
 
 
@@ -702,7 +701,7 @@ This is a paragraph
 
 - 用以定义与 HTML 页面或页面一部分(如一篇报告或新文章)有关的作者、相关人士或组织的联系信息
 - 包括电子邮件地址、指向联系信息页的链接等信息
-- 默认 ***斜体***
+- 默认 *斜体*
     ``` html {.line-numbers}
     <address> </address>
     ```

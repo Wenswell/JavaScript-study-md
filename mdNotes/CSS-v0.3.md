@@ -159,7 +159,10 @@ Attribute selector  | 属性      |  `tagName/* attributeName[(^/$/*/~/|)(=attri
 4. Adjacent sibling combinator | `+` | 紧邻兄弟
     - 同个父元素下紧邻前一元素的(兄)弟元素
     - `img` `+` `p`: 紧邻图片的那个段落元素
-
+- `article  p`: 选择article下所有p元素
+- `ul > li`: 选择直接嵌套在 ul 内的所有 li 元素
+- `p ~ span`: 选择同一父元素下 p 后的所有 span 元素
+- `img + p`: 紧邻图片的那个段落元素
 
 ## pseudo 伪选择器
 
@@ -243,12 +246,12 @@ Attribute selector  | 属性      |  `tagName/* attributeName[(^/$/*/~/|)(=attri
 
 0. 按下列顺序, 后声明的规则覆盖之前的声明
 
-1. 用户代理样式表中的声明(如浏览器的默认样式, 在未设置其他样式时使用)
-2. 用户样式表中的常规声明(由用户设置的自定义样式)
-3. 作者样式表中的常规声明( web 开发人员设置)
-4. 作者样式表中的 !important 声明
-5. 用户样式表中的 !important 声明
-6. 用户代理样式表中的 !important 声明
+    1. 用户代理样式表中的声明(如浏览器的默认样式, 在未设置其他样式时使用)
+    2. 用户样式表中的常规声明(由用户设置的自定义样式)
+    3. 作者样式表中的常规声明( web 开发人员设置)
+    4. 作者样式表中的 !important 声明
+    5. 用户样式表中的 !important 声明
+    6. 用户代理样式表中的 !important 声明
 
 ## 特殊性
 
@@ -501,13 +504,13 @@ Attribute selector  | 属性      |  `tagName/* attributeName[(^/$/*/~/|)(=attri
         - ~~同一 `character` 可以有不同字形(文字的形状)~~
 
 1. 字体族 `font-family`
-    - `<family-name>`: 一个字体族的名字, eg. `"Lucida Console"` `"Helvetica"`
-    - `<generic-name>`： 通用字体族
-        - `Serif`衬线 `Sans-serif`无衬线 `Monospace`等宽 
-        - `Cursive`草书(连笔) `Fantasy`花式艺术 
-        - `system-ui` `emoji` `math`
-    - [web safe CSS font](https://www.cssfontstack.com/)
-    - 若字体族名称包含 空格 或 非标准符号 时应当加引号
+- `<family-name>`: 一个字体族的名字, eg. `"Lucida Console"` `"Helvetica"`
+- `<generic-name>`： 通用字体族
+    - `Serif`衬线 `Sans-serif`无衬线 `Monospace`等宽 
+    - `Cursive`草书(连笔) `Fantasy`花式艺术 
+    - `system-ui` `emoji` `math`
+- [web safe CSS font](https://www.cssfontstack.com/)
+- 若字体族名称包含 空格 或 非标准符号 时应当加引号
 
 1. Web字体
     1. 引入Web字体 `@font-face`
@@ -580,25 +583,25 @@ Attribute selector  | 属性      |  `tagName/* attributeName[(^/$/*/~/|)(=attri
 
     > OpenType特性: 字距调整(kerning), 连字(ligature), 替代数字(alternative numeral), 饰线(swash) 等
 
-    2. 连字 ligatures 
+2. 连字 ligatures 
     ``` css {.line-numbers} 
     font-variant-ligatures: common-ligatures discretionary-ligatures;
     font-feature-settings:　"liga","dlig"; /*OperiType 特性*/
     ```
 
-    3. 线性数字
+3. 线性数字
     ``` css {.line-numbers} 
     font-variant-numeric: lining-nums | oldstyle-nums ;
     font-feature-settings: "lnum" | "onum"; /*OperiType 特性*/
     ```
 
-    4. 表列线性数字(垂直对齐)
+4. 表列线性数字(垂直对齐)
     ``` css {.line-numbers} 
     font-variant-numeric: tabular-nums lining-nums;
     font-feature-settings: "tnum", "lnum"; /*OperiType 特性*/
     ```
 
-    5. 字距调整kerning
+5. 字距调整kerning
     ``` css {.line-numbers} 
     font-kerning: normal | auto | none;
     font-feature-settings: "kern";
