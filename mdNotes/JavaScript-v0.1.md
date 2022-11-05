@@ -14,6 +14,87 @@
 
 2. **轻量编辑器**
 
+# 代码质量
+
+
+## 在浏览器中调试
+
+> 调试 指在一个脚本中找出并修复错误的过程
+
+### JS 补充
+
+1. `debugger;` 写在脚本中, 在调试器中暂停代码
+
+2. `console.log( )` 日志记录
+
+### `Sources` 资源面板
+
+1. `File Navigator` 区域
+
+    - 依附于此页面的文件, 包括 Chrome 扩展程序
+
+2. `Code Editor` 区域
+
+    - `Breakpoints` 断点 / `Conditional Breakpoints` 条件断点
+    - `Continue to here` 右键的 `context menu` (关联菜单) 中
+
+3. `JavaScript Debugging` 区域
+
+    - `Resume script execution` 恢复: 继续执行, 直到结束/下一个断点
+    - `Step`: 运行下一条指令 (会忽略异步行为如 `setTimeout`) 
+    - `Step over next function call`: 后台执行函数调用, 跳过函数内部
+    - `Step into next function call`: 单步执行函数
+    - `Step out of current function`: 执行到当前函数最后一行
+    - `Pause on exceptions`: 开/关 出现错误时自动暂停脚本执行
+
+4. `JavaScript Debugging` 查看
+
+    - `Watch` 监视: 显示任意表达式的当前值
+
+    - `Call Stack` 调用栈: 显示嵌套的调用链
+
+    - `Scope` 作用域: 显示当前的局部/全局变量
+
+
+## 代码风格
+
+- 单行中不用 `{...}`
+- indent 水平缩进 / 垂直缩进
+- `;` 每一个语句后面都应该有一个分号
+- **反引号 `** 允许将字符串拆分为多行
+- 避免嵌套
+    - 循环中可使用 `(!...) continue;` `if/else` `return` 避免嵌套
+- 函数位置
+    - 建议: 先写调用代码, 再写函数 (命名准确)
+- 风格指南
+- 自动检查器
+
+- 注释这些
+    - 整体架构, 高层次的观点。
+    - 函数的用法。
+    - 重要的解决方案, 特别是在不是很明显时。
+- 避免注释
+    - 描述“代码如何工作”和“代码做了什么”
+    - 在代码足够简单或有很好的自描述性时还写没必要的注释
+
+
+## 使用 Mocha 进行自动化测试
+
+- waiting...
+
+
+## Polyfill & Transpilers 
+
+
+- Transpilers 转译器
+
+    - 使用旧的语法结构 **重写** 现代语法或运算符
+
+- Polyfills 垫片
+
+    - 更新/添加 **新函数** 的脚本
+
+
 # JavaScript 基础
 
 > *JavaScript 是一门动态类型、面向对象的脚本 (Script) 语言。*
@@ -521,86 +602,6 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 };
 ```
 
-# 代码质量
-
-
-## 在浏览器中调试
-
-> 调试 指在一个脚本中找出并修复错误的过程
-
-### JS 补充
-
-1. `debugger;` 写在脚本中, 在调试器中暂停代码
-
-2. `console.log( )` 日志记录
-
-### `Sources` 资源面板
-
-1. `File Navigator` 区域
-
-    - 依附于此页面的文件, 包括 Chrome 扩展程序
-
-2. `Code Editor` 区域
-
-    - `Breakpoints` 断点 / `Conditional Breakpoints` 条件断点
-    - `Continue to here` 右键的 `context menu` (关联菜单) 中
-
-3. `JavaScript Debugging` 区域
-
-    - `Resume script execution` 恢复: 继续执行, 直到结束/下一个断点
-    - `Step`: 运行下一条指令 (会忽略异步行为如 `setTimeout`) 
-    - `Step over next function call`: 后台执行函数调用, 跳过函数内部
-    - `Step into next function call`: 单步执行函数
-    - `Step out of current function`: 执行到当前函数最后一行
-    - `Pause on exceptions`: 开/关 出现错误时自动暂停脚本执行
-
-4. `JavaScript Debugging` 查看
-
-    - `Watch` 监视: 显示任意表达式的当前值
-
-    - `Call Stack` 调用栈: 显示嵌套的调用链
-
-    - `Scope` 作用域: 显示当前的局部/全局变量
-
-
-## 代码风格
-
-- 单行中不用 `{...}`
-- indent 水平缩进 / 垂直缩进
-- `;` 每一个语句后面都应该有一个分号
-- **反引号 `** 允许将字符串拆分为多行
-- 避免嵌套
-    - 循环中可使用 `(!...) continue;` `if/else` `return` 避免嵌套
-- 函数位置
-    - 建议: 先写调用代码, 再写函数 (命名准确)
-- 风格指南
-- 自动检查器
-
-- 注释这些
-    - 整体架构, 高层次的观点。
-    - 函数的用法。
-    - 重要的解决方案, 特别是在不是很明显时。
-- 避免注释
-    - 描述“代码如何工作”和“代码做了什么”
-    - 在代码足够简单或有很好的自描述性时还写没必要的注释
-
-
-## 使用 Mocha 进行自动化测试
-
-- waiting...
-
-
-## Polyfill & Transpilers 
-
-
-- Transpilers 转译器
-
-    - 使用旧的语法结构 **重写** 现代语法或运算符
-
-- Polyfills 垫片
-
-    - 更新/添加 **新函数** 的脚本
-
 
 # Object 基础知识
 
@@ -842,7 +843,7 @@ let sum = (a, b) => {  // 花括号表示开始一个多行函数
 
 ## Object — 原始值转换
 
-> 所有的对象在布尔上下文（context中均为`true`
+> 所有的对象在布尔上下文 (context中均为`true`
 
 - JavaScript 运算符处理对象的方式不允许自定义
 - 数学运算下对象会被自动转换为原始值进行运算并得到一个原始值
@@ -1137,7 +1138,7 @@ arr.forEach(function(item, index, array) {
     ``` javascript {.line-numbers}
     let result = arr.find(function(item, index, array) {
         // 如果返回 true，则返回 item 并停止迭代
-        // 对于假值（falsy）的情况，则返回 undefined
+        // 对于假值 (falsy) 的情况，则返回 undefined
     });
     ```
     - `arr.find()` 若函数返回 `true` 则返回 `item`, 否则返回 `undefined`
@@ -1266,7 +1267,7 @@ arr.forEach(function(item, index, array) {
 > `Map` 对象保存键值对, 任何值(**包括对象**)都可以作为 `key / value`
 - 普通的 `Object` 会将 key 转成字符串
 - `Map` 会保留 `key` 的类型(包括 `NaN`)
-    - `Map` 比较键是否相等类似 `===`(区别是 `NaN` 视作与 `NaN` 相等)
+    - `Map` 比较键是否相等类似 `===`(除了 `NaN` 与 `NaN` 相等)
 
 ### Map 方法和属性
 
@@ -1332,11 +1333,12 @@ arr.forEach(function(item, index, array) {
 ### Set 方法
 
 1. `new Set(iterable)` 创建 `set`
-    - 若提供了一个 iterable 对象(通常是数组) 则从数组里面复制值到 `set` 
+    - 若提供了一个 iterable 对象(通常是**数组**) 则从数组里面复制值到 `set` 
 
 2. `set.add(value)` 向 `set` 添加值 并 返回 `set` 自身
+    - 不发生类型转换
     - 使用**同一个** `value` 调用 set.add(value) 无作用
-    - `Set` 内部对唯一性检查进行了更好的优化(优于 arr.find 的遍历)
+    - `Set` 内部对唯一性检查(类似 `===`, NaN除外)进行了更好的优化(优于 arr.find 的遍历)
 
 3. `set.delete(value)` 删除值 且根据方法调用的时候是否存在 `value` 返回 `true`|`false`
 
@@ -1356,7 +1358,7 @@ let set = new Set(["oranges", "apples", "bananas"]);
 for (let value of set) alert(value);
 
 // 与 forEach 相同：
-set.forEach((value, valueAgain, set) => { // 三个参数: value,同一个value,目标对象
+set.forEach((value, valueAgain, set) => { // 三个参数: afvalue,同一个value,目标对象
   alert(value);
 });
 ```
@@ -1371,88 +1373,485 @@ set.forEach((value, valueAgain, set) => { // 三个参数: value,同一个value,
 3. `set.entries()` —— 遍历并返回一个包含所有的实体 `[value, value]` 的可迭代对象，它的存在也是为了兼容 Map。
 
 
+## WeakMap and WeakSet 弱映射和弱集合
+
+> JS 引擎在 值 “可达”和可能被使用时会将其保持在内存中
+
+### WeakMap
+
+1. `WeakMap` 的 `key` 必须为 `Object`
+
+2. 若无其他对该 `key` 的引用则该 `object (即key)` 会被从 内存和 WeakMap 中删除
+    - 回收的时间未知, 由 JS 引擎决定
+    - `WeakMap` 当前元素的数量**未知**
+
+3. 无法获取 `WeakMap` 的所有 key 或 value
+4. `WeakMap` 不支持 key() value() entries() 方法
+5. `WeakMap` 只支持 `set` `get` `has` `delete` 方法
+
+5. `WeakMap` 不可迭代 
 
 
+### WeakSet
+
+> 用于储存 是/否 … (而非数据)
+
+0. `WeakSet` 与 Set 类似
+
+1. 只能向 `WeakSet` 中添加 `Object`
+
+2. 被添加的 `Object` 只有能在其他地方被访问时才会留在 `WeakSet` 中
+
+3. 无法获取 `WeakSet` 所有当前内容
+
+3. `WeakSet` 不支持 size keys()
+3. `WeakSet` 支持 `add` `has` `delete` 方法
+
+4. `WeakSet` 不可迭代
 
 
+## plain object 的迭代和转换
+
+> `Map` `Set` `Array` 对象支持 `.keys()` `.values()` `.entries()` 方法
+    并返回 **可迭代**对象
+
+- 普通对象支持类似方法:
+    - 并返回一个 **数组**对象
+    - `Object.keys(obj)`
+    - `Object.values(obj)`
+    - `Object.entries(obj)`
+
+    1. 以上方法为通用方法 (不同对象可另外实现自身特有的 `obj.value()` 方法)
+    2. Object.keys/values/entries 会忽略 `symbol` 属性
+
+- 转换对象 -> 数组
+
+    - 普通对象不能使用数组存在的方法如 `map` `filter`
+
+    - 可先调用 `Object.entries(obj)` 得到 键值对数组
+
+    - 再对其调用数组方法 如 `.map()`
+    
+    - 使用 `Object.fromEntries(array)` 将结果转回对象
+    
+    - 
+        ``` javascript {.line-numbers}
+        let newObj = Object.fromEntries(
+            Object.entries(obj)
+            .map(
+                entry = > [entry[0], entry[1] * 2]
+            )
+        );
+        ```
+
+## 解构赋值 Destructuring assignment
+
+- 原数组/对象并未被修改
 
 
+### 数组解构
+
+- 基本语法
+    ``` javascript {line-numbers}
+    let [item1 = default, item2, ...rest] = array
+    ```
+    - 数组第一 二个元素被赋值给 `item1` `item2`
+    - 剩下的元素被复制到数组 `rest`
+
+- `=` 右侧可为任何可迭代对象
+
+- `=` 左侧可为任何可被赋值的东西('assignables')
+    - eg. `[user.name, user.surname] = "John Smith".split(' ');`
+
+- 可通过额外的 `,` 跳过某些元素
+    - eg. `let [firstName, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];`
+
+- **`...restArr`** 收集剩余元素
+    - eg. `let [name1, name2, ...rest] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];`
+    - 可使用 `...`加任何允许的变量名
+    - 放在解构赋值的 *最后一个* 参数位置
+
+- 为 未赋值变量 添加默认值
+    - 使用 `=` 提供
+    - 可以是 原始值, 对象, 复杂的表达式, 函数调用
+    - 表达式或函数调用只有在变量**未被赋值**时才会被计算
+
+- 交换变量值
+    - `[first, second] = [second, first];`
+    - 也可交换多个变量
+
+- 使用 .entries() 方法遍历
+    - ``` javascript {line-numbers}
+      for (let [key, value] of Object.entries(user)) {
+        console.log(`${key}:${value}`); 
+      }
+        ```
+    - 可直接用 Map 对象替换 `Object.entries(user)` (Map以键值对的形式迭代)
 
 
+### 对象解构
+- 基本语法
+    ``` javascript {line-numbers}
+    let {prop : varName = default, ...rest} = object
+    ```
+    - 将属性 `prop` 的值value 赋给变量 `varName`
+    - 若无该属性则使用默认值 `default`
+    - 剩余无对应映射的属性被复制到 `rest` 对象中
+
+- `=` 右侧为一个已经存在的对象
+
+- `=` 左侧包含 右侧对象 相应属性 的一个类对象"模式(pattern)"
+    - 最简单情况下 左侧为 右侧对象中的 变量名列表
+        - 此时 属性的值 被赋给对应变量(**变量名与属性键相同**)
+    - 也可使用`:`指定 属性和变量 之间的映射关系
+        - 语法: " 获取对象中 `该属性` 的值 `:` 将值赋给`该变量` "
+    - 变量的顺序**不重要**
+
+- **`...restObj`** 收集剩余元素
+    - eg. `let {title, ...rest} = options;`
+    - 可使用 `...`加任何允许的变量名
+    - 放在解构赋值的 *最后一个* 参数位置
+
+- 为 可能缺失的属性 添加默认值
+    - 使用 `=` 提供
+    - 可以是 原始值, 对象, 复杂的表达式, 函数调用
+    - 表达式或函数调用只有在变量**未被赋值**时才会被计算
+
+- 注意: 不使用 `let` 时的陷阱
+
+    - 若先声明变量再使用 `{} = {}` 解构对象会报错
+
+        - JS 把主代码流的 `{…}` 当作一个代码块, 用于对语句分组
+
+    - 需要使用 `()` 包裹整个赋值表达式或直接声明变量
+        - `({} = obj);`
+        - `let {} = obj;`
+
+### 嵌套解构
+
+- 若一个对象或数组嵌套了其他对象或数组则需要在 `=`左侧使用更复杂的 模式(pattern) 来提取更深层的数据
+
+- 此时 `=` 两侧必须有 *相同的结构*
 
 
+### 智能函数参数
 
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<hr>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-
-
-
-
-
-
-
-
-
-## 字符串
-
-
-
-
-
-## 数组
-
-
-
-
-
-## 数组方法
-
-
-
-
-
-## Iterable object（可迭代对象）
-
-
-
-
-
-## Map and Set（映射和集合）
-
-
-
-
-
-## WeakMap and WeakSet（弱映射和弱集合）
-
-
-
-
-
-## Object.keys, values, entries
-
-
-
-
-
-## 解构赋值
-
+- 使用一个对象来传递不同参数
+- 用函数将对象解构成各个参数
+``` javascript {line-numbers}
+function func1({
+  incomingProperty: varName = defaultValue
+  ...
+})
+```
+- 若要所有参数使用默认值则传递空对象或指定空对象为整个参数对象默认值
+    - `func1({});`
+    - `function func1({...} = {})`
 
 
 
 
 ## 日期和时间
 
+1. 创建 Date
+
+- `new Date()` 
+    - 不带参数则时间等于创建时的当前日期和时间
+
+- `new Date(milliseconds)`
+    - 传入 num 则时间等于 1970.1.1 UTC+0 后经过的毫秒数
+    - 该整数参数被称为 时间戳 timestamp
+
+- `new Date(datestring)`
+    - 传入字符串则被自动解析
+    - 算法与 `Date.parse()` 相同
+
+- `new Date(year, month[, date, hours, minutes, seconds, ms])`
+    - 只有 年 月 必须
+    - `year` 应该使用四位数 (不推荐 二位数视为19XX)
+    - `mouth` 从 `0` ~ `11` 代表 一月 ~ 十二月
+    - `date` 默认为 `1` 指当月的具体某天
+    - `hours/minutes/seconds/ms` 默认为 `0` 
+    - 时间最大精确到 1毫秒
+
+
+2. 访问 Date
+
+- `dateObj.getFullYear()`
+    - 只使用标准化方法`getFullYear()`
+    - 返回 4位数 年份
+
+- `dateObj.getMonth()`
+    - 返回 (一月) `0` ~ `11` (十二月) 月份
+
+- `dateObj.getDate()`
+    - 返回当月的 `1` ~ `31` 具体日期 
+
+- `dateObj.getDay()`
+    - 返回一周中的第 (周日) `0` ~ `6` (周六) 天
+
+- `dateObj.getHours(), getMinutes(), getSeconds(), getMilliseconds()`
+
+- 以上方法的结果都基于**当地时区**
+    - 可使用 `dateObj.getUTCFullYear(), getUTCMonth(), getUTCDay()` 获取基于 UTC+0 时区的年月日
+`
+- 特殊方法 (无UTC变体)
+
+    - `dateObj.getTime()`
+        - 返回日期的时间戳, 即从 1970-1-1 00:00:00 UTC+0 开始经过的毫秒数
+
+    - `dateObj.getTimezoneOffset()`
+        - 返回 UTC 与本地时区的时间差, 单位分钟
+        - UTC+8 地区结果为 480 (8 * 60)
+
+3. 设置 Date
+
+- `dateObj.setFullYear(year, [month], [date])`
+
+- `dateObj.setMonth(month, [date])`
+
+- `dateObj.setDate(date)`
+
+- `dateObj.setHours(hour, [min], [sec], [ms])`
+
+- `dateObj.setMinutes(min, [sec], [ms])`
+
+- `dateObj.setSeconds(sec, [ms])`
+
+- `dateObj.setMilliseconds(ms)`
+
+- `dateObj.setTime(milliseconds)` (使用自 1970-01-01 00:00:00 UTC+0 以来的毫秒数来设置整个日期)
+
+- 除 `setTime()` 都有 UTC 变体 如 `setUTCHours()`
+
+- **自动较准 Autocorrection**
+
+    - 可以设置超范围的数值, 零, 负值
+    - `.setDate(0)` 代表上个月最后一天
+
+4. 转换 Date
+
+- 将 Date 对象转化为数字时得到 对应的时间戳, 与 `date.getTime()` 效果一样
+
+- Date 可相减 得到 毫秒为单位的时间差
+
+5. **`Date.now()`** 
+
+- 推荐使用 `Date.now()` 测量时间间隔
+- `Date.now()` 返回当前的时间戳, 与 new Date().getTime() 作用相同
+- 且 `Date.now()` 不创建 Date 对象, 速度更快且不用回收内存
+
+6. 基准测试 Benchmarking
+
+    1. 用时间差来衡量不同函数
+    2. 整个度量测试包应该多次运行, 且被测函数应该交替运行
+    3. 增加预热步骤 (JS 优化只针对多次执行的"hot code"有效)
+
+7. `Date.parse(str)` 解析字符串
+
+- 使用 `Date.parse(str)` 解析指定格式的字符串
+    - 返回 时间戳timestamp (自 1970-01-01 00:00:00 起所经过的毫秒数)
+    - 格式不正确则返回 **`NaN`**
+- 字符串格式为 `YYYY-MM-DDTHH:mm:ss.sssZ`
+    - `T` 为分隔符
+    - `Z` 为 `+-hh:mm` 格式的时区 (单个字符 `'z'` 代表 UTC+0 时区)
+    - 可省略至年份 `'YYYY'`
+- 可通过返回的时间戳直接创建 `new Date` 对象
+    - ``` javascript {line-numbers}
+      let date = new Date( Date.parse('2022-10-30T12:34:56.789+10:00') );
+      ```
+
+## JSON 方法
+
+> JSON (JavaScript Object Notation) 是表示值和对象的通用格式
+> JSON 可用于不同语言之间的数据交换
+> JSON 不支持注释
+
+- `JSON.stringify` 将 Object 转换为 JSON 
+
+    - 得到的 `json` 字符串是一个被称为 JSON 编码 JSON-encoded / 序列化 serialized / 字符串化 stringified / 编组化 marshalled 的对象
+    - 其类型为 `string`
+    - 与对象字面量的区别
+        1. 字符串使用双引号(**只有**双引号`""`)
+        2. 对象属性名称也是双引号的`"key":num` `"key":"string"`
+    - **禁止**包含循环引用, 否则报错
+    - 支持嵌套对象转换
+    - 支持类型: 
+        - Objects { ... }
+        - Arrays [ ... ]
+        - 原始类型: strings, numbers, boolean values `true/false`, `null`
+    - JSON 是纯数据规范, 一些特定于 JS 的对象属性会被跳过
+        - 函数属性/方法
+        - Symbol 类型的键和值
+        - 存储 `undefined` 的属性
+    - 可用于比较 Object 内容是否相同
+
+    ``` javascript {line-numbers}
+    let json = JSON.stringify(value[, replacer, space])
+    ```
+    - 通常只传递要编码的值 `value` 
+    - `replace` 
+        1. 指定要编码的属性数组
+        2. 应用映射函数 `function(key, value)` 可用于跳过循环引用项
+            - `replacer` 被递归地应用, 会获取每个键/值对
+            - `replacer` 中 `this` 的值是包含当前属性的对象
+            - 第一个 `(key, value)` 对的键是空的，并且该值是整个目标对象 `{"": theObject}`
+    - `space` 指定用于格式化的空格数量/字符串
+        - 仅用于日志记录和美化输出
+
+    - 自定义 toJSON
+        - 对象可提供 `toJSON` 方法来进行转换
+        - 如可用则 `JSON.stringify` 会自动调用它
+        - 如日期有内建的 `toJSON` 方法返回格式化的字符串
+
+
+- `JSON.parse` 将 JSON 转换回 Object 
+
+    ``` javascript {line-numbers}
+    let value = JSON.parse(str, [reviver]);
+    ```
+    - `str` 要解析的 `JSON` 字符串
+    - `reviver` 对每个键值对调用的函数 `function(key,value)`
+        - 如将 JSON 中格式化的日期 `string` 转回 `Date` 格式
+
+
+# 函数进阶
+
+## 递归&堆栈 recursion & stack
+
+> 递归 recursion : 函数中含有的调用函数自身的情况(存在终止条件)
+> 迭代法也称辗转法, 是一种不断用变量的旧值递推新值的过程
+> 递归解通常比迭代解更短
+
+### 执行上下文和堆栈
+
+- 执行上下文 execution context
+    - execution context 是一个内部数据解构, 包含函数执行时的详细细节
+        - 有关正在运行的函数的 执行过程 的 相关信息 被存储在其 execution context 中
+    - 一个函数调用只具有一个与其相关联的执行上下文
+    - 递归深度等于堆栈中上下文的最大数量
+
+- 函数嵌套调用时
+    - 当前函数暂停
+    - 与其关联的 execution context 被 execution context stack (特殊数据结构)保存
+    - 执行嵌套调用
+    - 调用结束后从堆栈中弹出之前的 execution context
+    - 从停止的位置恢复外部函数
+
+- 任何递归都可以用循环来重写且通常循环变体更有效
+- 但递归可以使代码更短且更易于理解和维护
+
+### 递归遍历与递归结构 链表
+
+- 递归(recursively-defined)数据结构是一种部分复制自身的结构
+    - 如 HTML/XML 文档, 链表 Linked list
+
+- **链表元素** 是一个使用以下元素通过递归定义的对象
+
+    - `value`
+    - `next` 属性引用下个 链表元素 或 `null`(代表末尾)
+    - 增强
+        - 添加 `prev` 属性引用前一元素以便于反向移动
+        - 添加 `tail` 变量引用最后一个元素(实时更新)
+    - 优缺点 (相比数组)
+        - 优点: 易组装/拆分, 在*任何位置*插入/移除元素
+        - 缺点: 难以获取编号
+
+
+## Rest 参数与 Spread 语法
+
+- 调用任意函数时都可传入任意数量的参数
+    - 旧: arguments 变量为可在函数中访问的包含所有参数的类数组对象(不支持数组方法)
+    - 箭头函数没有 arguments
+
+- Rest 参数
+    - 可在**函数定义**中使用 `...变量名` 声明一个 Array 收集剩余的参数
+    - Rest参数必须在参数列表的*末尾*, 否则报错
+
+- Spread 语法
+    - 在**函数调用**时传入 `...arr` 将可迭代对象 `arr` 展开至参数列表中
+    - Spread 语法内部使用迭代器, 与 ``for..of``相同
+    - 可传入一个或多个可迭代对象
+    - 可与常规值一起使用
+
+- Spread 语法使用
+    - 可用 spread 语法复制 `Object`/`Array` (**浅拷贝**)
+        - 复制对象效果与 `Object.assign()` 相同且更简便
+    - 可用 spread 语法来合并数组
+        - eg.`let merged = [0, ...arr1, 2, 3, arr4]`
+    - 可用 spread 语法将字符串转换为字符数组
+        - 与 `Array.from` 类似
+        - 但 `Array.from` 除可迭代对象外 也适用于类数组对象
+
+## 变量作用域 闭包
+
+
+- 在代码块 `{...}` 中声明的变量只在该代码块内部可见
+    - 若重复用 `let` 声明已存在的变量会报错
+    - `for()` 中声明的变量被视为块的一部分
+
+- 嵌套函数: 在另一个函数中创建的函数
+    - 可返回一个嵌套函数, 使得在任何地方调用时访问相同外部变量
+
+### 词法环境 Lexical Environment
+
+- JS 中每个运行的函数, 代码块{...}, 整个脚本都有一个内部(隐藏)的关联对象, 被称为词法环境
+    - "Lexical Environment" 是一个规范对象 specification object, 只存在于 语言规范 的“理论”层面 用于描述事物如何工作(*无法在代码中获取/操作该对象*)
+
+- 词法环境分 2 部分
+
+    1. 环境记录 Environment Record
+        - 储存所有局部变量为其属性(包括其他信息如 `this` 的值)的对象
+    2. 对外部词法环境的引用, 与外部代****码相关联
+
+1. 变量 variable
+    - 一个 variable 只是 Lexical Environment 的一个属性
+    - 获取/修改变量 意味着 获取/修改 Lexical Environment 的一个属性
+    - 所有声明的变量都会被预填充 (处于`<uninitialized>`状态)且在**声明前**不能引用该变量
+
+2. 函数声明 Function Declaration
+    - 一个函数也是一个值, 与变量相似
+    - 函数声明的初始化会被**立即完成**
+        - 当 Lexical Environment 创建, 函数声明立即变为即用型函数
+        - 可在声明之前调用以 Function Declaration 方式声明的函数
+        - 注意: 不适用于将函数分配给变量的函数表达式
+
+3. 
 
 
 
 
-## JSON 方法, toJSON
+
+
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<hr>
+
+
+
+
+
+``` javascript {line-numbers}
+
+
+
+
+
+
+```
+
+
+
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<hr>
+
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<hr>
 
 
 
