@@ -1802,7 +1802,10 @@ function func1({
 
     1. 环境记录 Environment Record
         - 储存所有局部变量为其属性(包括其他信息如 `this` 的值)的对象
-    2. 对外部词法环境的引用, 与外部代****码相关联
+    2. 对外部词法环境的引用, 与外部代码相关联
+        - 所有函数都有名为 **`[[Environment]]`** 的隐藏属性
+        - 该属性保存了对*创建*该函数的 Lexical Environment 的引用
+        - `[[Environment]]` 引用在函数创建时被设置并永久保存
 
 1. 变量 variable
     - 一个 variable 只是 Lexical Environment 的一个属性
@@ -1810,13 +1813,200 @@ function func1({
     - 所有声明的变量都会被预填充 (处于`<uninitialized>`状态)且在**声明前**不能引用该变量
 
 2. 函数声明 Function Declaration
-    - 一个函数也是一个值, 与变量相似
+    - 一个函数也是 Lexical Environment 的一个值, 与变量相似
     - 函数声明的初始化会被**立即完成**
         - 当 Lexical Environment 创建, 函数声明立即变为即用型函数
         - 可在声明之前调用以 Function Declaration 方式声明的函数
         - 注意: 不适用于将函数分配给变量的函数表达式
 
-3. 
+3. 内部和外部的词法环境 Inner and outer Lexical Environment
+
+    - 函数调用期间有 2 个 Lexical Environment
+        1. Inner : 函数调用开始时会自动创建一个新 Lexical Environment 储存调用的局部变量与参数
+        2. outer : Inner Lexical Environment 引用 `outer` Lexical Environment
+    - 当代码访问一个变量时: 先搜索内部词法环境, 然后搜索外部, 更外部, 直到全局词法环境
+    - 若直到 Global 都无法找到变量, 在 strict mode 下会报错
+        - 非严格模式下为向下兼容会给 未定义的变量赋值 创建一个 全局变量
+
+4. 返回函数
+
+    - 在变量所在的词法环境中更新变量
+    - 多次调用同一个返回的函数会创建**多个** Lexical Environment
+
+- 闭包 Closure
+    - 闭包指一个函数可以记住且可以访问其外部变量
+    - JS 中 *所有函数* 天生闭包 
+        - JS 中的函数自动通过隐藏的 `[[Environment]]` 属性记住其创建的位置
+
+- 垃圾回收
+
+    - 理论上当函数可达时它外部的所有变量也都将存在
+    - 实际中 V8 引擎会进行优化
+    - 明显未使用的外部变量在调试中不可用
+
+
+
+
+``` javascript {.line-numbers}
+
+function sum(n) {
+    let ans = 0;
+    return function () {
+        ans += n;
+    }
+}
+
+
+```
+## 旧用声明 `var`
+
+- var 没有块级作用域
+    - 用 `var` 声明的变量只有 函数作用域 / 全局作用域
+- var 允许重新声明
+    - 重新声明会被忽略
+    - 但是不会报错 (用 let 重新声明会报错)
+- Hoisting 变量提升
+    - 函数/脚本在开头就会处理 var 声明
+    - 只有声明会被提升, 赋值不会
+
+- 旧: IIFE 立即调用函数表达式
+    - `(function() {……})();`
+    - 模仿块级作用域
+    - 函数声明必须有函数名(函数表达式不需要)
+    - JS不允许立即调用函数声明
+
+## 全局对象
+
+> 全局对象提供可在任何地方使用的变量和函数
+
+- 全局对象名
+    - 全局对象的标准名: `globalThis`
+    - 浏览器: "window"
+    - Node.js: "global"
+
+- 全局对象的所有属性都可以被直接访问
+
+    - 旧-兼容:
+        - 浏览器中用 `var` 声明(let/const不会)的全局函数/变量会成为全局对象的属性
+        - 函数声明(函数表达式不会)会成为全局对象的属性
+
+- 使用 polyfills
+
+    - 使用全局对象测试对现代语言功能的支持情况
+        - eg. 通过测试是否存在内建的Promise对象判断版本新旧
+        - 创建 polyfills 添加环境不支持但在现代标准中存在的功能
+
+## 函数对象, NFE
+
+> 函数的类型为 `object`
+
+- 属性 "name"
+
+    - 函数的名字可通过其属性 `name` 来访问
+    - 上下文命名: 
+        - 若函数未提供, 则在赋值中依据上下文推测一个
+        - 若无法推测名字则属性 `name` 为空 `''`
+
+- 属性 "length"
+
+    - 内建(built-in)属性 `length` 返回函数入参的个数
+    - rest 参数不纳入
+
+- 自定义属性
+
+    - 函数属性有时会用来替代闭包
+    - 在外部依然可以访问
+
+- NFE 命名函数表达式
+
+    - 指带有名字的函数表达式的术语
+    - 为函数表达式添加名字
+        - 允许函数在内部引用自身
+        - 在函数外部不可见
+
+
+## 少用: "new Function" 语法
+
+``` javascript {line-numbers}
+let func = new Function ([arg1, arg2, ...argN], functionBody);
+```
+- 区别: 函数通过运行时传递的字符串创建
+- 允许将任意字符串转为函数
+
+- 闭包 Closure
+    - 使用 `new Function` 创建的函数
+    - 其 `[[Environment]]` 直接指向全局环境
+    - 无法访问外部(outer)变量
+
+- 压缩 JS
+    - 压缩程序 minifier 会将局部变量重命名为较短的变量
+    - 使用 `new Function` 必须显示地通过参数传递数据
+
+## 调度: setTimeout & setInterval
+
+- 概念: 计划调用 scheduling a call: 等待特定的一段时间再执行函数
+- 实现: `setTimeout` `setInterval`
+- 注意: 以上方法不在 JS 规范中(浏览器与Node.js都支持)
+
+### setTimeout
+``` javascript {line-numbers}
+let timerId = setTimeout(func, [delay], [arg1], [arg2], ...);
+clearTimeout(timerId);
+```
+- 参数
+    - `timerId`: 调用 `setTimeout` 会返回一个 定时器标识符 timer identifier
+        - 可使用 `clearTimeout` 取消调度
+        - 浏览器中的 定时器标识符 是数字
+
+    - `func`: 要推迟的函数
+        - 可传入箭头函数
+        - 不建议: 也可传入代码字符串
+
+    - `delay`: 延时长度, 单位毫秒, 默认为 `0`
+
+    - `arg1, arg2`: 传入推迟函数的参数列表
+
+- 嵌套使用 setTimeout 实现周期性调度
+    ``` javascript {.line-numbers}
+    let timerId = setTimeout(function loop() {
+    ……
+    if (something happen) {delay *= 2} //依据情况改变间隔
+    timerId = setTimeout(loop, delay);
+    }, delay);
+    ```
+    1. 比 setInterval 更加灵活(依据结果调整下一次调度)
+    2. 相较于 setInterval 能更精确地设置两次执行之间的延时
+    - 使用 setInterval 时, 函数**执行耗时**被算在间隔时间内
+
+- 垃圾回收
+    - 当一个函数传入 `setInterval/setTimeout` 时会为其创建内部引用
+    - 在 `setTimeout` 调用函数前 (`clearInterval` 被调用前) 函数在内存中
+        - 函数引用的外部变量也会一直存在
+        - 不需要时及时取消调度函数
+
+- 零延时 setTimeout
+    - 只有在当前脚本**执行完后**, 调度程序才会调用 `func`
+    - 设置 `delay` 为 `0` 或不设置 `delay`
+    - 让 `func` 在当前脚本执行完后立即执行
+    - 非实际零延时: 经过 5 重嵌套定时器之后的时间间隔被强制设定为至少 4 毫秒
+
+
+
+### setInterval
+
+``` javascript {line-numbers}
+let timerId = setInterval(func|code, [delay], [arg1], [arg2], ...);
+clearInterval(timerId);
+```
+
+- 方法与 setTimeout 相同
+- `setInterval` 每间隔给定的时间周期性执行
+- 阻止后续调用使用 `clearInterval(timerId)`
+
+
+
+
+
 
 
 
@@ -1832,8 +2022,7 @@ function func1({
 
 
 
-``` javascript {line-numbers}
-
+``` javascript {.line-numbers}
 
 
 
